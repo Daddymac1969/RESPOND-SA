@@ -59,8 +59,8 @@
   .brandrow{display:flex;align-items:center;gap:14px;padding:22px 0 18px}
   .dots{display:flex;gap:5px;align-items:center}
   .dots span{width:12px;height:12px;border-radius:50%;display:inline-block}
-  .wordmark{font-weight:800;letter-spacing:.06em;color:var(--navy);font-size:1.05rem}
-  .wordmark small{display:block;font-weight:500;letter-spacing:.18em;color:var(--muted);font-size:.62rem;text-transform:uppercase;margin-top:2px}
+  .wordmark{font-weight:800;letter-spacing:.06em;color:var(--navy);font-size:1.05rem;white-space:nowrap}
+  .wordmark small{display:inline;font-weight:500;letter-spacing:.1em;color:var(--muted);font-size:.62rem;text-transform:uppercase;margin-left:8px;vertical-align:middle}
 
   .hero{padding:30px 0 34px}
   .hero h1{font-size:2rem;line-height:1.15;margin:0 0 12px;color:var(--navy);font-weight:800}
@@ -74,6 +74,19 @@
   .identity label{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600;margin-bottom:6px}
   .identity input{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:9px;font:inherit;color:var(--ink);background:var(--soft)}
   .identity input:focus{outline:none;border-color:var(--navy2);background:#fff;box-shadow:0 0 0 3px rgba(44,90,160,.12)}
+
+  /* ---------- Tabs ---------- */
+  .tabs{position:sticky;top:0;z-index:40;display:flex;gap:4px;flex-wrap:wrap;background:rgba(250,250,250,.96);backdrop-filter:blur(8px);padding:10px 0;margin:8px 0 18px;border-bottom:1px solid var(--line)}
+  .tabs .tab{position:relative;font:inherit;font-weight:600;font-size:.9rem;color:var(--muted);background:transparent;border:1px solid transparent;border-radius:9px;padding:9px 15px 9px 26px;cursor:pointer;white-space:nowrap;transition:all .12s ease}
+  .tabs .tab::before{content:"";position:absolute;left:12px;top:50%;transform:translateY(-50%);width:9px;height:9px;border-radius:50%;background:var(--tab,var(--muted))}
+  .tabs .tab:hover{background:var(--soft);color:var(--ink)}
+  .tabs .tab.active{background:var(--tab,var(--navy));color:#fff}
+  .tabs .tab.active::before{background:#fff}
+  .view{display:none}
+  .view.active{display:block;animation:fadein .2s ease}
+  @keyframes fadein{from{opacity:.4}to{opacity:1}}
+  @media print{ .tabs{display:none} .view{display:block !important} }
+  @media (max-width:720px){ .tabs{gap:3px} .tabs .tab{padding:8px 11px 8px 23px;font-size:.82rem} .tabs .tab::before{left:9px} }
 
   /* ---------- Legend ---------- */
   .legend{margin:18px 0;padding:18px 22px}
@@ -176,6 +189,16 @@
   .stage .smap{font-size:.82rem;color:var(--muted)}
   .stage .smap b{color:var(--navy);font-weight:600}
   .stage .ssig{font-size:.78rem;font-weight:700;padding:3px 9px;border-radius:999px;display:inline-block;margin-top:7px}
+  .catchout{margin:0 0 20px;padding:16px 18px;border-radius:12px;background:var(--soft);border:1px solid var(--line);font-size:.95rem;line-height:1.55;color:var(--muted)}
+  .catchout.set{border-left:4px solid var(--navy);color:var(--ink)}
+  .catchout .cbig{font-weight:700;color:var(--navy);font-size:1.02rem;display:block;margin-bottom:4px}
+  .catchout.warn{border-left-color:var(--m1)}
+  .catchout.warn .cbig{color:var(--m1)}
+  .catchout.good{border-left-color:var(--m4)}
+  .catchout.good .cbig{color:var(--m4)}
+  .stage.is-catch .scard{box-shadow:0 0 0 2px var(--navy);background:#fff}
+  .stage.is-catch .node{box-shadow:0 0 0 1px var(--navy),0 0 0 4px rgba(30,61,111,.18)}
+  .stage .ctag{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:3px 9px;border-radius:999px;margin-top:7px}
   .euh .foot{margin-top:18px;font-size:.88rem;color:var(--ink);background:var(--soft);border-left:3px solid var(--c-engage);padding:11px 14px;border-radius:0 9px 9px 0}
   .euh .foot b{color:var(--navy)}
 
@@ -183,7 +206,9 @@
   .aplan{margin:0 0 20px;padding:26px 24px}
   .aplan h2{margin:0 0 4px;font-size:1.5rem;color:var(--navy);font-weight:800}
   .aplan .sub{color:var(--muted);margin:0 0 6px;font-size:.93rem}
-  .apcount{font-size:.85rem;font-weight:600;color:var(--navy);margin:6px 0 16px}
+  .apcount{font-size:.85rem;font-weight:600;color:var(--navy);margin:6px 0 10px}
+  .apbulk{display:flex;gap:9px;margin:0 0 14px}
+  button.act.sm{padding:7px 14px;font-size:.82rem}
   .apcand{border:1px solid var(--line);border-left-width:4px;border-radius:0 11px 11px 0;padding:14px 16px;margin:10px 0;background:#fff}
   .apcand.on{background:var(--soft)}
   .apcand .top{display:flex;gap:13px;align-items:flex-start}
@@ -237,8 +262,8 @@
   .racc > summary::-webkit-details-marker{display:none}
   .racc > summary:hover{background:var(--soft)}
   .racc .rglyph{flex:0 0 auto;width:32px;height:32px;border-radius:8px;color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:.95rem}
-  .racc .rtitle{font-weight:700;font-size:1.04rem;color:var(--ink)}
-  .racc .rcluster{font-size:.74rem;color:var(--muted);margin-top:1px}
+  .racc .rtitle{display:block;font-weight:700;font-size:1.04rem;color:var(--ink)}
+  .racc .rcluster{display:block;font-size:.74rem;color:var(--muted);margin-top:1px}
   .racc .rband{margin-left:auto;font-size:.7rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:5px 11px;border-radius:999px;background:var(--soft);color:var(--muted);white-space:nowrap}
   .racc .rband[data-band="emerging"]{background:rgba(192,57,43,.1);color:var(--m1)}
   .racc .rband[data-band="developing"]{background:rgba(224,146,47,.12);color:#b56f18}
@@ -325,6 +350,7 @@
   }
 
   @media print{
+    *{ -webkit-print-color-adjust:exact !important; print-color-adjust:exact !important; }
     .sticky,.actions,.seg button:not(.sel){display:none}
     .seg button.sel{border:1px solid #999}
     body{background:#fff}
@@ -349,7 +375,7 @@
         <span style="background:var(--c-notify)"></span>
         <span style="background:var(--c-document)"></span>
       </div>
-      <div class="wordmark">RESPOND<small>Safeguarding</small></div>
+      <div class="wordmark">RESPOND<small>Safeguarding Framework</small></div>
     </div>
   </div>
 </header>
@@ -358,7 +384,7 @@
   <section class="hero">
     <h1>RESPOND Self-Assessment</h1>
     <p class="lead">A reflective audit for any setting to review its own safeguarding practice against the RESPOND framework, from the first moments of recognition through to the systems that hold a response together.</p>
-    <p class="fine">This is a tool for honest reflection and shared conversation, not an inspection instrument. It is designed to complement statutory guidance and your existing policies, helping a setting see where practice is strong, where it is developing, and where to focus next. Rate each statement as it is now, not as you would like it to be. The gaps are the most useful part.</p>
+    <p class="fine">This is a tool for honest reflection and shared conversation, not a compliance test. It is designed to complement statutory guidance and your existing policies, helping a setting see where practice is strong, where it is developing, and where to focus next. Rate each statement as it is now, not as you would like it to be. The gaps are the most useful part.</p>
   </section>
 
   <!-- Identity -->
@@ -388,18 +414,35 @@
     </div>
   </div>
 
+  <!-- Tab navigation -->
+  <nav class="tabs" id="tabs" role="tablist">
+    <button class="tab" role="tab" data-view="audit" style="--tab:var(--c-recognise)" onclick="showView('audit')">Self-assessment</button>
+    <button class="tab" role="tab" data-view="escalation" style="--tab:var(--c-pause)" onclick="showView('escalation')">Unseen Harm</button>
+    <button class="tab" role="tab" data-view="results" style="--tab:var(--c-engage)" onclick="showView('results')">Results</button>
+    <button class="tab" role="tab" data-view="regulatory" style="--tab:var(--c-notify)" onclick="showView('regulatory')">Regulatory</button>
+    <button class="tab" role="tab" data-view="plan" style="--tab:var(--c-document)" onclick="showView('plan')">Reflection &amp; plan</button>
+  </nav>
+
+  <!-- VIEW: Self-assessment -->
+  <div class="view" id="view-audit">
   <!-- Audit renders here -->
   <main id="audit"></main>
+  </div>
 
-  <!-- Escalation of Unseen Harm -->
+  <!-- VIEW: Escalation -->
+  <div class="view" id="view-escalation">
   <section class="panel euh" id="euh">
     <h2>The Escalation of Unseen Harm</h2>
     <p class="sub">The RESPOND model that describes how a concern intensifies through six predictable stages when early, subtle indicators are not acted upon. It is the reason the relational steps matter so much.</p>
-    <p class="ctx">Risk does not stay still when it goes unrecognised, it accumulates. When the helix fragments, when Recognise does not lead to Engage, when Pause is skipped, or when Notify never happens, a student moves down these stages. Each one maps to the RESPOND step whose breakdown allows the harm to deepen. Intervening early, at stages one or two, is what prevents a stage six breakdown. Use your ratings above to ask honestly: at which stage would our practice currently catch this student?</p>
+    <p class="ctx">Risk does not stay still when it goes unrecognised, it accumulates. Each stage below maps to the RESPOND step whose strength determines whether a student is caught there. Strong practice early, at Recognise, Engage and Support, catches a student before harm deepens. Where early practice is weaker, a student is more likely to pass unseen until a later stage. Based on the ratings you have given, here is where your practice would currently tend to catch a student.</p>
+    <div id="catchReadout" class="catchout">Rate the relevant areas above and your likely catch point will appear here.</div>
     <div class="ladder" id="ladder"></div>
     <div class="foot"><b>The shift this asks for:</b> from reacting to crisis, to noticing the quiet, cumulative signs early, the work of Recognise, Engage and Support, so that fewer students ever reach the later stages unseen.</div>
   </section>
+  </div>
 
+  <!-- VIEW: Results -->
+  <div class="view" id="view-results">
   <!-- Dashboard -->
   <section class="panel dash" id="dashboard">
     <h2>Your protective capacity picture</h2>
@@ -441,12 +484,14 @@
       <button class="act warn" onclick="resetAll()">Reset</button>
     </div>
   </section>
+  </div>
 
   <!-- Regulatory and evidence base -->
+  <div class="view" id="view-regulatory">
   <section class="panel reg" id="reg">
     <h2>The regulatory and evidence base</h2>
     <p class="sub">RESPOND is driven by regulation, research and evidence. This section does not ask whether you comply, it shows how the practice you have just assessed demonstrates the duties in the statutory framework. Compliance follows the work, it is the consequence of doing the right thing well.</p>
-    <p class="ctx">Each RESPOND area below expands to show the statutory duties and guidance that the practice maps onto, with a prompt to help you locate the evidence an inspector would expect to see. Independent schools must meet the Independent School Standards and have regard to the named statutory guidance. "Have regard to" means a school can demonstrate it either follows the guidance or has good reason to depart from it.</p>
+    <p class="ctx">Each RESPOND area below expands to show the statutory duties and guidance that the practice maps onto, with a prompt to help you locate the evidence you would want to show during an audit. Independent schools must meet the Independent School Standards and have regard to the named statutory guidance. "Have regard to" means a school can demonstrate it either follows the guidance or has good reason to depart from it.</p>
 
     <div class="boardrow">
       <label class="toggle"><input type="checkbox" id="boardToggle" onchange="toggleBoarding(this.checked)" /><span class="tr"></span><span class="tk"></span></label>
@@ -458,9 +503,12 @@
 
     <div id="regList"></div>
 
-    <p class="legalnote">Rows shaded <span class="amberkey"></span> amber are in transition: they reflect guidance that is newly in force, in consultation, or operative from a future date, and should be tracked. This mapping supports inspection readiness but is not a compliance guarantee, and it complements rather than replaces your safeguarding policy, the full statutory texts, and professional judgement. Sources are referenced by their short titles; always work from the current full guidance.</p>
+    <p class="legalnote">Rows shaded <span class="amberkey"></span> amber are in transition: they reflect guidance that is newly in force, in consultation, or operative from a future date, and should be tracked. This mapping supports audit readiness but is not a compliance guarantee, and it complements rather than replaces your safeguarding policy, the full statutory texts, and professional judgement. Sources are referenced by their short titles; always work from the current full guidance.</p>
   </section>
+  </div>
 
+  <!-- VIEW: Reflection and plan -->
+  <div class="view" id="view-plan">
   <!-- RESPOND Safeguarding Framework: AI reflection -->
   <section class="panel aipanel" id="aiReflection">
     <h2><span class="mk" aria-hidden="true">
@@ -481,11 +529,16 @@
     <p class="sub">Choose which areas to turn into actions. Every statement you rated Emerging or Developing appears below. Tick the ones to include, add the detail, then export a branded Word document for your programme plan or governor report.</p>
     <p class="sub">A recommended action is suggested for each, drawn from the RESPOND toolkit. Edit it to fit your setting.</p>
     <div class="apcount" id="apCount"></div>
+    <div class="apbulk" id="apBulk" style="display:none">
+      <button class="act ghost sm" onclick="apSelectAll(true)">Check all</button>
+      <button class="act ghost sm" onclick="apSelectAll(false)">Clear all</button>
+    </div>
     <div id="apCandidates"></div>
     <div class="actions" id="apActions" style="display:none">
       <button class="act" onclick="downloadActionPlan()">Download action plan (Word)</button>
     </div>
   </section>
+  </div>
 
   <footer>
     <p>RESPOND is a seven-step duty of care workflow, Recognise, Engage, Support, Pause, Offer, Notify, Document, powered by the ACT mindset (Active Intervention, Contextual Safeguarding, Trauma-Informed Practice). Pause is the bridge between the relational steps and the systems steps. The steps are a toolkit to move between, not a fixed checklist.</p>
@@ -713,7 +766,7 @@ const REG_MAP = [
       {src:'Working Together 2026', text:'A shared responsibility to identify children who may need help or protection at the earliest point.'},
       {src:'NMS for Boarding 2026', text:'Boarding staff are alert to the welfare of boarders in residential settings, including out of teaching hours.', board:true}
     ],
-    evid:'Where would an inspector see that recognition is shared across all staff roles? For example induction and refresh training records, the staff handbook indicators, and examples of concerns raised by non-teaching staff.' },
+    evid:'Where would recognition show as shared across all staff roles during an audit? For example induction and refresh training records, the staff handbook indicators, and examples of concerns raised by non-teaching staff.' },
 
   { dimId:'engage', area:'Engage', cluster:'Relational', color:'var(--c-engage)',
     rows:[
@@ -761,7 +814,7 @@ const REG_MAP = [
   { dimId:'document', area:'Document', cluster:'Systems', color:'var(--c-document)',
     rows:[
       {src:'KCSIE 2025, Part 1', text:'Concerns are recorded accurately, including the child\u2019s own words, with clear, factual, dated and timed records.'},
-      {src:'ISS Part 3, para 7', text:'Safeguarding arrangements are evidenced through proper records that can be checked at inspection.'},
+      {src:'ISS Part 3, para 7', text:'Safeguarding arrangements are evidenced through proper records that can be checked during an audit.'},
       {src:'Restrictive Interventions 2026', text:'Statutory duty to record each significant use of force, and to record and report seclusion and restraint, as soon as practicable.', amber:true},
       {src:'Restrictive Interventions 2026', text:'Independent schools must provide information about a seclusion or restraint incident to parents in writing.', amber:true, board:false},
       {src:'NMS for Boarding 2026', text:'Records relating to boarders\u2019 welfare are maintained and accessible.', board:true}
@@ -819,6 +872,8 @@ let STORE_OK = (function(){
   catch(e){ return false; }
 })();
 let saveTimer = null;
+let savedView = null;
+let activeView = 'audit';
 
 function setSaveStatus(text, muted){
   const el = document.getElementById('saveStatus');
@@ -839,7 +894,8 @@ function snapshot(){
     ratings: state.ratings,
     notes: state.notes,
     ap: apState,
-    boarding: !!(document.getElementById('reg') && document.getElementById('reg').classList.contains('show-board'))
+    boarding: !!(document.getElementById('reg') && document.getElementById('reg').classList.contains('show-board')),
+    view: activeView
   };
 }
 
@@ -889,6 +945,7 @@ function loadSaved(){
     const bt = document.getElementById('boardToggle');
     if(bt){ bt.checked = true; document.getElementById('reg').classList.add('show-board'); }
   }
+  if(data.view) savedView = data.view;
   return true;
 }
 
@@ -971,7 +1028,7 @@ function dimBandById(dimId){
 function buildEscalation(){
   const root = document.getElementById('ladder');
   root.innerHTML = ESCALATION.map((s,i)=>`
-    <div class="stage">
+    <div class="stage" id="estage-${i}">
       <div class="rail"><div class="line"></div><div class="node" id="enode-${i}" style="background:${s.color}"></div></div>
       <div class="scard" style="border-left-color:${s.color}">
         <div class="sn">${s.n}</div>
@@ -984,19 +1041,71 @@ function buildEscalation(){
 }
 
 function refreshEscalation(){
-  ESCALATION.forEach((s,i)=>{
-    const band = dimBandById(s.dimId);
-    const sig = document.getElementById('esig-'+i);
-    if(!sig) return;
-    if(!band){ sig.style.display='none'; return; }
-    sig.style.display='inline-block';
-    const f = dimById(s.dimId);
-    const dname = f ? f.dim.name : '';
-    const weak = (band.key==='emerging' || band.key==='developing');
-    sig.textContent = (weak?'Watch here \u00b7 ':'Likely caught \u00b7 ') + dname + ': ' + band.name;
-    sig.style.background = weak ? 'rgba(192,57,43,.1)' : 'rgba(46,125,91,.1)';
-    sig.style.color = weak ? 'var(--m1)' : 'var(--m4)';
+  // Determine the earliest stage whose mapped dimension is reliably strong
+  // (Established or Embedded). That is where a student would tend to be caught.
+  let catchIdx = -1;       // index of first reliably-strong stage
+  let anyRated = false;
+  const bands = ESCALATION.map(s=>{
+    const b = dimBandById(s.dimId);
+    if(b) anyRated = true;
+    return b;
   });
+  for(let i=0;i<ESCALATION.length;i++){
+    const b = bands[i];
+    if(b && (b.key==='established' || b.key==='embedded')){ catchIdx = i; break; }
+  }
+
+  // Per-stage tags on the ladder
+  ESCALATION.forEach((s,i)=>{
+    const sig = document.getElementById('esig-'+i);
+    const stageEl = document.getElementById('estage-'+i);
+    if(stageEl) stageEl.classList.remove('is-catch');
+    if(!sig) return;
+    const b = bands[i];
+    if(!b){ sig.style.display='none'; return; }
+    sig.style.display='inline-block';
+    sig.className = 'ctag';
+    if(catchIdx !== -1 && i < catchIdx){
+      // earlier than catch point: weak practice lets a student pass here
+      sig.textContent = 'Likely to pass unseen';
+      sig.style.background = 'rgba(192,57,43,.1)';
+      sig.style.color = 'var(--m1)';
+    } else if(i === catchIdx){
+      sig.textContent = 'Likely caught here';
+      sig.style.background = 'rgba(46,125,91,.12)';
+      sig.style.color = 'var(--m4)';
+      if(stageEl) stageEl.classList.add('is-catch');
+    } else {
+      sig.textContent = b.name;
+      sig.style.background = 'var(--soft)';
+      sig.style.color = 'var(--muted)';
+    }
+  });
+
+  // Headline readout
+  const out = document.getElementById('catchReadout');
+  if(!out) return;
+  if(!anyRated){
+    out.className = 'catchout';
+    out.textContent = 'Rate the relevant areas above and your likely catch point will appear here.';
+    return;
+  }
+  const f = catchIdx!==-1 ? dimById(ESCALATION[catchIdx].dimId) : null;
+  if(catchIdx === 0){
+    out.className = 'catchout set good';
+    out.innerHTML = '<span class="cbig">You would tend to catch a student at the earliest stage.</span>'
+      + 'Your Recognise practice is a relative strength, so subtle, early signs are more likely to be noticed before harm deepens. The work now is to sustain this and make sure the later steps hold too.';
+  } else if(catchIdx !== -1){
+    const s = ESCALATION[catchIdx];
+    const earlier = ESCALATION.slice(0,catchIdx).map(e=>e.name).join(', ');
+    out.className = 'catchout set ' + (catchIdx>=3 ? 'warn' : '');
+    out.innerHTML = '<span class="cbig">Your likely catch point is ' + s.n + ', ' + s.name + '.</span>'
+      + 'On current ratings, the first reliably strong step is ' + (f?f.dim.name:'') + '. That suggests a student could pass through the earlier stages (' + earlier + ') before being caught. Strengthening the earlier steps would move your catch point higher up, closer to the first quiet signs.';
+  } else {
+    out.className = 'catchout set warn';
+    out.innerHTML = '<span class="cbig">No stage is yet a reliable catch point.</span>'
+      + 'None of the mapped steps is currently rated Established or Embedded, which means a student could move through these stages without being reliably caught. The relational steps, Recognise, Engage and Support, are the place to start, because they catch harm earliest.';
+  }
 }
 
 /* ----------------------------------------------------------------
@@ -1293,12 +1402,14 @@ function renderActionPlan(){
   if(!ratedAny){
     wrap.innerHTML = `<div class="apempty">Rate the statements above first. Anything you mark Emerging or Developing will appear here, ready to build into an action.</div>`;
     document.getElementById('apActions').style.display='none';
+    document.getElementById('apBulk').style.display='none';
     apUpdateCount();
     return;
   }
   if(items.length===0){
     wrap.innerHTML = `<div class="apempty">Nothing is currently rated Emerging or Developing, so there are no gaps to convert. The priority now is to sustain and review practice.</div>`;
     document.getElementById('apActions').style.display='none';
+    document.getElementById('apBulk').style.display='none';
     apUpdateCount();
     return;
   }
@@ -1349,7 +1460,21 @@ function renderActionPlan(){
   });
 
   document.getElementById('apActions').style.display='';
+  document.getElementById('apBulk').style.display='';
   apUpdateCount();
+}
+
+function apSelectAll(on){
+  weakItems().forEach(it=>{
+    if(!apState[it.id]) apState[it.id]={sel:false, action:ITEM_INFO[it.id].tip, owner:'', review:'', measure:''};
+    apState[it.id].sel = !!on;
+    const cb = document.getElementById('apck-'+it.id);
+    if(cb) cb.checked = !!on;
+    const card = document.getElementById('apc-'+it.id);
+    if(card) card.classList.toggle('on', !!on);
+  });
+  apUpdateCount();
+  saveNow();
 }
 
 function apToggle(id, cb){
@@ -1608,6 +1733,19 @@ document.addEventListener('click', e=>{
 });
 
 /* ----------------------------------------------------------------
+   Tab navigation
+-----------------------------------------------------------------*/
+function showView(name){
+  activeView = name;
+  document.querySelectorAll('.view').forEach(v=>v.classList.toggle('active', v.id === 'view-'+name));
+  document.querySelectorAll('.tabs .tab').forEach(t=>t.classList.toggle('active', t.dataset.view === name));
+  // jump to the top of the content area so the new tab starts at the top
+  const tabs = document.getElementById('tabs');
+  if(tabs) window.scrollTo({top: tabs.offsetTop - 8, behavior:'auto'});
+  save();
+}
+
+/* ----------------------------------------------------------------
    Init
 -----------------------------------------------------------------*/
 buildAudit();
@@ -1624,6 +1762,8 @@ restoreUI();
   if(el) el.addEventListener('input', save);
 });
 refresh();
+// open the saved tab, or default to the self-assessment
+showView(savedView || 'audit');
 if(hadSaved){
   const el = document.getElementById('saveStatus');
   if(el) setSaveStatus('Progress restored from this device');
