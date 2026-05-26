@@ -33,6 +33,7 @@ function num(x){ return (typeof x === 'number' && !isNaN(x)); }
 function formatPrompt(p){
   const L = [];
   L.push('School: ' + (p.school || 'Not specified'));
+  if (p.boarding) L.push('This is a boarding setting, so the National Minimum Standards for Boarding Schools also apply.');
   if (p.overall){
     let line = 'Overall maturity band: ' + (p.overall.band || 'not yet rated');
     if (num(p.overall.avg)) line += ' (average ' + p.overall.avg.toFixed(2) + ' of 4.00, ' + p.overall.rated + ' of ' + p.overall.total + ' statements rated)';
