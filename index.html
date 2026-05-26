@@ -33,6 +33,9 @@
     --c-culture:#b5722e;
     --c-foundations:#5b8c6e;
     --c-pillars:#8a6aa8;
+    --c-recruit:#3f6f8f;
+    --c-govern:#7a5c8a;
+    --c-experience:#2f8f8a;
 
     --m1:#c0392b; /* Emerging */
     --m2:#e0922f; /* Developing */
@@ -74,7 +77,9 @@
   /* ---------- Identity panel ---------- */
   .panel{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}
   .identity{padding:20px 22px;margin:18px 0 8px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .identity .idnote{grid-column:1/-1;margin:0;font-size:.82rem;color:var(--muted);line-height:1.45}
   .identity label{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600;margin-bottom:6px}
+  .identity label .opt{text-transform:none;letter-spacing:0;font-weight:400;color:var(--muted);opacity:.8}
   .identity input{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:9px;font:inherit;color:var(--ink);background:var(--soft)}
   .identity input:focus{outline:none;border-color:var(--navy2);background:#fff;box-shadow:0 0 0 3px rgba(44,90,160,.12)}
 
@@ -85,6 +90,10 @@
   .tabs .tab:hover{background:var(--soft);color:var(--ink)}
   .tabs .tab.active{background:var(--tab,var(--navy));color:#fff}
   .tabs .tab.active::before{background:#fff}
+  .tbadge{display:inline-flex;align-items:center;justify-content:center;margin-left:7px;min-width:18px;height:18px;padding:0 5px;border-radius:999px;font-size:.68rem;font-weight:700;background:var(--line);color:var(--muted);vertical-align:middle;line-height:1}
+  .tab.active .tbadge{background:rgba(255,255,255,.28);color:#fff}
+  .tbadge.done{background:var(--m4);color:#fff}
+  .tab.active .tbadge.done{background:#fff;color:var(--m4)}
   .view{display:none}
   .view.active{display:block;animation:fadein .2s ease}
   @keyframes fadein{from{opacity:.4}to{opacity:1}}
@@ -124,6 +133,23 @@
   .item{display:flex;gap:16px;align-items:flex-start;padding:13px 0;border-top:1px solid var(--line);flex-wrap:wrap}
   .item:first-of-type{border-top:none}
   .item .stmt{flex:1 1 280px;min-width:240px;font-size:.95rem}
+  .floortag{display:inline-block;font-size:.6rem;font-weight:600;letter-spacing:.03em;text-transform:uppercase;color:var(--muted);background:#eef1f5;border:1px solid #b3bccb;padding:1px 6px;border-radius:5px;margin-left:8px;vertical-align:middle;white-space:nowrap}
+  button.floortag{cursor:pointer;font-family:inherit;line-height:1.3}
+  button.floortag:hover{background:#e3e8f0;border-color:#9aa6b8}
+  .whyicon{display:inline-flex;align-items:center;justify-content:center;width:15px;height:15px;margin-left:7px;padding:0;border:1px solid var(--line);background:#f4f6fa;color:var(--muted);border-radius:50%;font-size:.62rem;font-weight:700;font-style:italic;font-family:Georgia,serif;cursor:pointer;vertical-align:middle;line-height:1}
+  .whyicon:hover{background:#e9edf3;border-color:#b3bccb;color:var(--navy)}
+  .whypop{position:fixed;z-index:200;max-width:300px;background:#fff;border:1px solid var(--line);border-radius:11px;box-shadow:0 10px 30px rgba(20,40,80,.18);padding:0;display:none}
+  .whypop.show{display:block}
+  .whypop .wphead{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 13px 0}
+  .whypop .wptag{font-size:.62rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:2px 8px;border-radius:5px}
+  .whypop .wptag.floor{background:var(--navy);color:#fff}
+  .whypop .wptag.dev{background:#eef1f5;color:var(--muted);border:1px solid #b3bccb}
+  .whypop .wpclose{border:none;background:transparent;font-size:1.2rem;line-height:1;color:var(--muted);cursor:pointer;padding:0 2px}
+  .whypop .wpclose:hover{color:var(--ink)}
+  .whypop .wpbody{padding:8px 13px 14px;font-size:.86rem;line-height:1.5;color:var(--ink)}
+  .item.floor .stmt{font-weight:500}
+  .floornote{margin:14px 0 0;padding:12px 14px;background:var(--soft);border-radius:10px;font-size:.84rem;color:var(--ink);line-height:1.5}
+  .floornote .floortag{margin:0 6px 0 0}
   .seg{display:flex;border:1px solid var(--line);border-radius:9px;overflow:hidden;flex:0 0 auto}
   .seg button{
     border:none;background:#fff;cursor:pointer;font:inherit;font-size:.74rem;font-weight:600;
@@ -172,6 +198,15 @@
   .pcard .pstmt{font-size:.94rem;margin-bottom:6px}
   .pcard .ptip{font-size:.85rem;color:var(--muted)}
   .allgreen{padding:16px;background:rgba(46,125,91,.08);border-radius:11px;color:#2c7d72;font-weight:600}
+  .exposure{margin-top:26px;border-top:2px solid var(--navy);padding-top:22px}
+  .exposure h3{margin:0 0 4px;font-size:1.1rem;color:var(--navy);font-weight:700}
+  .exposure .ph{color:var(--muted);font-size:.9rem;margin:0 0 14px}
+  .ecard{border:1px solid var(--line);border-left-width:4px;border-radius:0 10px 10px 0;padding:12px 16px;margin:10px 0;background:#fff}
+  .ecard .etop{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:5px}
+  .ecard .elevel{font-size:.72rem;text-transform:uppercase;letter-spacing:.07em;font-weight:700}
+  .ecard .ecite{font-size:.74rem;font-weight:600;color:var(--navy);background:var(--soft);padding:3px 9px;border-radius:999px}
+  .ecard .estmt{font-size:.94rem;margin-bottom:5px}
+  .ecard .edim{font-size:.78rem;color:var(--muted)}
 
   /* ---------- Escalation of Unseen Harm ---------- */
   .euh{margin:34px 0 8px;padding:26px 24px}
@@ -220,6 +255,7 @@
   .apcand .d{font-size:.72rem;text-transform:uppercase;letter-spacing:.07em;font-weight:700;color:var(--muted)}
   .apcand .badge{font-size:.66rem;font-weight:700;padding:2px 8px;border-radius:999px;margin-left:6px;vertical-align:middle}
   .apcand .s{font-size:.95rem;margin-top:3px}
+  .apcand .apcite{font-size:.74rem;font-weight:600;color:var(--navy);margin-top:5px}
   .apfields{display:none;margin-top:14px;padding-top:14px;border-top:1px dashed var(--line);grid-template-columns:1fr 1fr;gap:13px}
   .apcand.on .apfields{display:grid}
   .apfields .full{grid-column:1/-1}
@@ -375,6 +411,11 @@
 </head>
 <body>
 
+<div id="whyPop" class="whypop" role="dialog" aria-label="Classification explanation">
+  <div class="wphead"><span class="wptag" id="wpTag"></span><button class="wpclose" aria-label="Close" onclick="hideWhy()">&times;</button></div>
+  <div class="wpbody" id="wpBody"></div>
+</div>
+
 <header class="top">
   <div class="wrap">
     <div class="brandrow">
@@ -401,16 +442,17 @@
 
   <!-- Identity -->
   <div class="panel identity">
+    <p class="idnote">These details are optional. They appear on anything you export, but you can leave them blank and still use the tool fully.</p>
     <div>
-      <label for="school">Setting</label>
+      <label for="school">Setting <span class="opt">(optional)</span></label>
       <input id="school" type="text" placeholder="School or setting name" />
     </div>
     <div>
-      <label for="assessor">Completed by</label>
+      <label for="assessor">Completed by <span class="opt">(optional)</span></label>
       <input id="assessor" type="text" placeholder="Name and role" />
     </div>
     <div>
-      <label for="date">Date</label>
+      <label for="date">Date <span class="opt">(optional)</span></label>
       <input id="date" type="date" />
     </div>
   </div>
@@ -424,11 +466,12 @@
       <div class="lv"><b><span class="swatch" style="background:var(--m3)"></span> Established</b><span>Consistent and understood across the setting and reliably done.</span></div>
       <div class="lv"><b><span class="swatch" style="background:var(--m4)"></span> Embedded</b><span>Lived and felt, sustained under pressure, and routinely reviewed.</span></div>
     </div>
+    <p class="floornote"><span class="floortag">Statutory floor</span> Some statements are marked as a statutory floor. These reflect duties that should be met now, not developmental aims. Maturity is the journey, but it sits above a floor that must always be met. A statutory-floor item rated Emerging or Developing is treated as a priority in your results and plan. This tool demonstrates how your practice meets these duties and shows where attention is needed; it does not certify compliance, which remains a matter for your own judgement.</p>
   </div>
 
   <!-- Tab navigation -->
   <nav class="tabs" id="tabs" role="tablist">
-    <button class="tab" role="tab" data-view="audit" style="--tab:var(--c-recognise)" onclick="showView('audit',true)">Self-assessment</button>
+    <button class="tab" role="tab" data-view="audit" style="--tab:var(--c-recognise)" onclick="showView('audit',true)">Self-assessment<span class="tbadge" id="auditBadge"></span></button>
     <button class="tab" role="tab" data-view="escalation" style="--tab:var(--c-pause)" onclick="showView('escalation',true)">Unseen Harm</button>
     <button class="tab" role="tab" data-view="results" style="--tab:var(--c-engage)" onclick="showView('results',true)">Results</button>
     <button class="tab" role="tab" data-view="regulatory" style="--tab:var(--c-notify)" onclick="showView('regulatory',true)">Regulatory</button>
@@ -484,9 +527,15 @@
       <div id="dimBars"></div>
     </div>
 
+    <div class="exposure" id="exposureBlock">
+      <h3>Compliance exposure</h3>
+      <p class="ph">Statutory-floor statements rated Emerging or Developing, highest exposure first. These bear most directly on duties your setting should be meeting now. This shows where to direct attention; it is not a judgement of compliance.</p>
+      <div id="exposureList"></div>
+    </div>
+
     <div class="priorities">
       <h3>Where to focus next</h3>
-      <p class="ph">The statements you rated Emerging or Developing, lowest first. These are the practical starting points for improvement.</p>
+      <p class="ph">All the statements you rated Emerging or Developing, lowest first, including developmental aims above the statutory floor. These are the practical starting points for improvement.</p>
       <div id="priorityList"></div>
     </div>
 
@@ -610,6 +659,7 @@ const CLUSTERS = [
         id:'recognise', name:'Recognise', glyph:'R', color:'var(--c-recognise)',
         question:'Do our people reliably notice the signs, in every context, and know when a concern crosses the threshold to act?',
         tip:'Build a shared, plain-language picture of indicators for your students, and make recognition everyone\u2019s job, not only the designated team\u2019s.',
+        cls:['floor','floor','floor','dev'],
         items:[
           'Staff across all roles can describe the physical, emotional, behavioural, digital and contextual signs relevant to our students.',
           'We share an understanding of what moves a passing worry to a concern that needs action.',
@@ -621,6 +671,7 @@ const CLUSTERS = [
         id:'engage', name:'Engage', glyph:'E', color:'var(--c-engage)',
         question:'When a concern surfaces, do staff engage calmly and effectively, without slipping into investigation?',
         tip:'Rehearse calm listening and the 4Ds (Direct, Distract, Delegate, Delay) so the first response is consistent and stays within role.',
+        cls:['floor','dev','floor','dev'],
         items:[
           'Staff respond to a disclosure with calm, open listening rather than questioning or interviewing.',
           'Staff can use proportionate active bystander strategies (Direct, Distract, Delegate, Delay) when they witness concerning behaviour.',
@@ -632,9 +683,10 @@ const CLUSTERS = [
         id:'support', name:'Support', glyph:'S', color:'var(--c-support)',
         question:'How is support provided in the first moments, and how do we keep momentum and follow up?',
         tip:'Decide who holds the follow-up and how, so support does not stop at the first conversation. Adapt it to the individual student.',
+        cls:['floor','floor','dev','dev'],
         items:[
           'Students receive immediate, proportionate reassurance in the moment a concern emerges.',
-          'Support is adapted to individual need, including SEND, neurodivergence, EAL and cultural context.',
+          'Support is adapted to individual need, including SEND, neurodivergence, EAL, mental health and cultural context.',
           'We have a reliable way to keep momentum after the first conversation, so support does not stall.',
           'Every student has a named trusted adult, and that adult follows up.'
         ]
@@ -649,6 +701,7 @@ const CLUSTERS = [
         id:'pause', name:'Pause', glyph:'P', color:'var(--c-pause)',
         question:'Is the Pause built into our structures, do people understand why it matters, and how relevant is trauma-informed practice to our setting?',
         tip:'Give staff explicit permission and a simple routine to pause and not investigate. Connect trauma-informed practice to the real situations your setting faces.',
+        cls:['dev','floor','dev','dev'],
         items:[
           'Staff understand why a brief pause matters: to steady themselves, check thresholds and avoid a knee-jerk reaction before acting.',
           'The need to pause, and not to investigate, is understood and accepted, not mistaken for hesitation or inaction.',
@@ -666,6 +719,7 @@ const CLUSTERS = [
         id:'offer', name:'Offer', glyph:'O', color:'var(--c-offer)',
         question:'What can our setting realistically and creatively offer a student, including the things that often go unnoticed?',
         tip:'Map the full picture of what is on offer, both formal and informal, then check it is genuinely available and that staff can signpost it.',
+        cls:['floor','dev','dev','dev'],
         items:[
           'We can name the formal options for a student in difficulty, for example a trusted adult, the health centre, counselling, a quiet space, a pastoral lead.',
           'We recognise the informal and easily overlooked sources of support, for example clubs, coaches, chaplaincy, peer mentors, boarding, site and kitchen staff.',
@@ -677,6 +731,7 @@ const CLUSTERS = [
         id:'notify', name:'Notify', glyph:'N', color:'var(--c-notify)',
         question:'Does everyone know who to notify, how, and how quickly, and do they feel confident doing it?',
         tip:'Make the who, how and when of a notification explicit for every context, then build confidence so worry about getting it wrong never delays a report.',
+        cls:['floor','floor','dev','floor'],
         items:[
           'Every member of staff knows exactly who to notify and how, including out of hours and in boarding or off-site contexts.',
           'Staff understand the expected timing and that concerns are passed on promptly.',
@@ -688,6 +743,7 @@ const CLUSTERS = [
         id:'document', name:'Document', glyph:'D', color:'var(--c-document)',
         question:'What proportion of our written records are timely, factual, and free of opinion and bias?',
         tip:'Agree a clear standard for what good looks like: prompt, factual, the student\u2019s own words, no assumptions. Sample records to check practice against it.',
+        cls:['floor','floor','dev','dev'],
         items:[
           'A high proportion of our records are completed promptly after the event.',
           'Records state what was seen and heard, including the student\u2019s own words, and are free of opinion, assumption and bias.',
@@ -705,6 +761,7 @@ const CLUSTERS = [
         id:'helix', name:'The Helix: non-linear practice', glyph:'\u223F', color:'var(--c-helix)',
         question:'Do staff understand that the steps loop and skip in real practice, and can they hold the sequence under pressure?',
         tip:'Teach the steps in sequence to build the scaffold, then practise moving between them. Notify and Document are the constants in every case.',
+        cls:['dev','dev','floor','dev'],
         items:[
           'Staff understand the seven steps are a toolkit to move between, not a rigid checklist to complete in order.',
           'Staff can move flexibly between steps as a situation changes, for example looping back to Recognise or going straight to Notify in an emergency.',
@@ -716,6 +773,7 @@ const CLUSTERS = [
         id:'capacity', name:'Protective Capacity', glyph:'\u25C9', color:'var(--c-capacity)',
         question:'Is the collective, relational power of every adult to keep children safe visible, lived and felt?',
         tip:'Treat connection and relationships as the foundation that makes systems and compliance work, and build a common language with the settings around your students.',
+        cls:['floor','dev','dev','dev'],
         items:[
           'Safeguarding is owned collectively by every adult, not located only in the designated team.',
           'Our safeguarding culture is visible, lived and felt in daily practice, not only written into policy.',
@@ -727,28 +785,43 @@ const CLUSTERS = [
         id:'agency', name:'Student Agency and Voice', glyph:'\u25B3', color:'var(--c-agency)',
         question:'Is student voice integral rather than additional, and are students equipped to support each other?',
         tip:'Many students seek help from friends first. Equip students to respond and signpost safely, and make sure raising a concern reliably leads to something.',
+        cls:['dev','dev','dev','floor'],
         items:[
           'Student voice genuinely shapes our safeguarding practice and is treated as integral, not an add-on.',
-          'Students experience the psychological safety of knowing that what they share will be met with calm and proportionate action.',
+          'Students have real, accessible routes to give feedback and shape decisions that affect their safety.',
           'We recognise that many students seek help from friends first, and we equip students to respond and signpost safely.',
           'Students know how to raise a concern and trust that something appropriate will happen when they do.'
         ]
       },
       {
+        id:'experience', name:'Student Experience and Psychological Safety', glyph:'\u2665', color:'var(--c-experience)',
+        question:'What would our students actually say about how safe they feel and how adults respond, based on what their feedback tells us?',
+        tip:'These reflect the lived experience of students, grounded in what student feedback genuinely tells you, not in assumption. Where you do not yet know, that gap is itself worth noting. For boarders, the evenings, nights and weekends matter as much as the school day.',
+        cls:['dev','dev','dev','floor'],
+        items:[
+          'Students would say they trust the adults here to respond calmly and without judgement when they share something difficult.',
+          'Students understand what is likely to happen after they share a concern, so speaking up feels less daunting.',
+          'Students feel safe in the unstructured parts of the day, and boarders feel safe in the evenings, overnight and at weekends.',
+          'Students believe that speaking up leads to something changing, and that they are protected from any retaliation for doing so.'
+        ]
+      },
+      {
         id:'context', name:'Contextual Safeguarding', glyph:'\u25A1', color:'var(--c-context)',
-        question:'Do we recognise and respond to harm beyond the individual, across peer groups, places, platforms and patterns?',
-        tip:'Use a People, Places, Platforms, Patterns scan as routine, and allow your response to reach the context where harm is happening, not only the individual.',
+        question:'Do we recognise and respond to harm beyond the individual, across peer groups, places, platforms and patterns, including the specific forms it takes?',
+        tip:'Use a People, Places, Platforms, Patterns scan as routine, and allow your response to reach the context where harm is happening, not only the individual. Name the specific forms harm takes so staff can recognise them.',
+        cls:['floor','dev','dev','floor'],
         items:[
           'We look for harm in the contexts students live in: peer groups, boarding houses, online spaces, neighbourhoods and the wider community.',
           'We routinely consider People, Places, Platforms and Patterns when we assess a concern.',
-          'We notice and respond to patterns across students, not only single incidents in isolation.',
-          'Our response can extend beyond the individual student to the context where harm is occurring.'
+          'We notice and respond to patterns across students, including attendance and absence that may signal a concern, not only single incidents.',
+          'Staff can recognise and respond to specific forms of extra-familial harm: child-on-child abuse, sexual exploitation, criminal exploitation and county lines, online abuse, radicalisation, and harmful practices linked to culture, faith or belief.'
         ]
       },
       {
         id:'culture', name:'Cultural Competence and Inclusion', glyph:'\u25C8', color:'var(--c-culture)',
         question:'Do we respond with awareness across cultures and identities, so that every child can disclose and be understood, without letting sensitivity override protection?',
         tip:'Build genuine curiosity about how culture, identity and communication style shape disclosure, and remember the balance: cultural sensitivity adapts how we respond, it never overrides the duty to protect.',
+        cls:['dev','dev','floor','floor'],
         items:[
           'Staff understand that cultural background shapes how children experience harm, express distress and seek help, and they respond with curiosity rather than assumption.',
           'We recognise that direct and indirect communication styles, and deference to authority, can affect whether a child discloses, and we create multiple safe routes to be heard.',
@@ -760,6 +833,7 @@ const CLUSTERS = [
         id:'foundations', name:'Foundational Principles', glyph:'\u25A3', color:'var(--c-foundations)',
         question:'Are the structural foundations in place that the institution must provide: evidence-led practice, staff wellbeing and reflection, lawful information sharing, and never working in isolation?',
         tip:'These are organisational systems, what the setting provides, not individual behaviours. Staff wellbeing and reflective supervision matter as much as student safety, because sustainable practice depends on it.',
+        cls:['dev','dev','floor','floor'],
         items:[
           'Our practice is rooted in evidence and research, with continuous learning from case studies, serious case reviews and national guidance.',
           'Staff wellbeing is prioritised alongside student safety, with professional boundaries, reflective supervision and recognition of vicarious trauma.',
@@ -771,11 +845,42 @@ const CLUSTERS = [
         id:'pillars', name:'Pillars of Practice', glyph:'\u2756', color:'var(--c-pillars)',
         question:'Does every response demonstrate principled action, duty of care and empathy together, since each alone is insufficient?',
         tip:'These describe how professionals relate in the moment. The three are integrated: principled action without empathy becomes cold procedure, empathy without duty of care creates risk, duty of care without principled action becomes mechanical compliance.',
+        cls:['dev','floor','dev','dev'],
         items:[
           'Responses are measured and proportionate, neither minimising nor over-escalating, with professional judgement under pressure (Principled Action).',
           'Responses are compliant with law, statutory guidance, school policy and professional codes of conduct (Duty of Care).',
           'Responses are trauma-informed, culturally competent and child-centred, prioritising the child\u2019s experience and voice (Empathy).',
           'Staff recognise that all three pillars are needed in every response, and that any one without the others creates risk or cold procedure.'
+        ]
+      }
+    ]
+  },
+  {
+    id:'organisation', name:'Safer Organisation', tag:'The conditions that make safe practice possible',
+    note:'The organisational scaffolding around the workflow: ensuring the adults in the building are safe to be there, and that leadership and governance hold safeguarding to account. These are the duties in KCSIE Parts 3 and 4 and the leadership standard.',
+    dims:[
+      {
+        id:'recruit', name:'Safer Recruitment and Managing Allegations', glyph:'\u2691', color:'var(--c-recruit)',
+        question:'Are the adults in our setting safe to work with children, and do we respond properly to concerns and allegations about them?',
+        tip:'Safer recruitment and the handling of concerns about adults are among the clearest statutory duties. Treat low-level concerns as the early-warning system they are, and keep the single central record audit-ready at all times.',
+        cls:['floor','floor','floor','floor'],
+        items:[
+          'We follow safer recruitment procedures, with the required pre-appointment checks, and at least one trained person on every recruitment panel.',
+          'We maintain a single central record of checks that is complete, accurate and kept up to date for all staff, supply staff and others as required.',
+          'We have a code of conduct, and clear procedures for managing allegations against staff and for referring to the DBS or TRA where the threshold is met.',
+          'Staff understand and report low-level concerns about adult behaviour, and these are recorded and reviewed to spot patterns early.'
+        ]
+      },
+      {
+        id:'governance', name:'Governance and Oversight', glyph:'\u2696', color:'var(--c-govern)',
+        question:'Does leadership and governance hold safeguarding to account, with the knowledge, scrutiny and evidence to do so?',
+        tip:'Governance is where safeguarding is held to account above the DSL. A named governor, trained members, regular scrutiny and the DSL evidencing duties to the board are what turn oversight from a formality into assurance.',
+        cls:['floor','floor','dev','dev'],
+        items:[
+          'There is a named governor or trustee for safeguarding, and the board takes active responsibility for oversight.',
+          'Governors and trustees complete safeguarding training appropriate to their role and understand their responsibilities.',
+          'Safeguarding is a regular item of scrutiny at board level, not only an annual report, with challenge and follow-up.',
+          'The DSL provides governors with evidence that the setting is meeting its safeguarding duties, and gaps are tracked to resolution.'
         ]
       }
     ]
@@ -893,6 +998,14 @@ const REG_MAP = [
     ],
     evid:'How is student voice evidenced as integral? For example a reporting route students trust, records of student feedback shaping practice, and peer support arrangements.' },
 
+  { dimId:'experience', area:'Student Experience and Psychological Safety', cluster:'Foundations', color:'var(--c-experience)',
+    rows:[
+      {src:'KCSIE 2025, Part 1', text:'Children should feel able to raise concerns and be confident they will be listened to and taken seriously.'},
+      {src:'ISS Part 3', text:'The welfare of students is actively promoted, which includes how safe and supported students feel in practice.'},
+      {src:'NMS for Boarding 2026', text:'Boarders feel safe and are protected from harm across the boarding day, including evenings, nights and weekends.', board:true}
+    ],
+    evid:'How is student experience evidenced? For example student survey results on feeling safe and being heard, feedback on what happens after a concern is raised, and boarding-specific safety feedback. Where this is not yet known, that gap is itself worth recording.' },
+
   { dimId:'culture', area:'Cultural Competence and Inclusion', cluster:'Foundations', color:'var(--c-culture)',
     rows:[
       {src:'Equality Act 2010', text:'Duty to eliminate discrimination, advance equality of opportunity and foster good relations, including reasonable adjustments for disabled children.'},
@@ -917,7 +1030,25 @@ const REG_MAP = [
       {src:'ISS Part 3, para 7', text:'Welfare arrangements are met consistently and operate well in practice, reflecting sound professional judgement.'},
       {src:'Teachers\u2019 Standards / codes of conduct', text:'Professional conduct and duty of care expectations that underpin measured, principled responses.'}
     ],
-    evid:'How is the quality of response evidenced? For example case records showing proportionate judgement, the staff code of conduct, and student feedback that responses were handled with care and respect.' }
+    evid:'How is the quality of response evidenced? For example case records showing proportionate judgement, the staff code of conduct, and student feedback that responses were handled with care and respect.' },
+
+  { dimId:'recruit', area:'Safer Recruitment and Managing Allegations', cluster:'Safer Organisation', color:'var(--c-recruit)',
+    rows:[
+      {src:'KCSIE 2025, Part 3', text:'Safer recruitment: pre-appointment checks, a trained recruiter on the panel, and a complete single central record.'},
+      {src:'KCSIE 2025, Part 4', text:'Managing allegations and concerns about adults, including low-level concerns, and referral to the DBS and TRA where the threshold is met.'},
+      {src:'ISS Part 4', text:'Suitability of staff, supply staff and proprietors, with the required checks carried out and recorded.'},
+      {src:'NMS for Boarding 2026', text:'Staff and others living on site are subject to the required recruitment checks; educational guardians are checked to the same standard.', board:true}
+    ],
+    evid:'How is safer practice evidenced? For example the single central record, the recruitment and selection policy, the staff code of conduct, and the low-level concerns log with evidence of review.' },
+
+  { dimId:'governance', area:'Governance and Oversight', cluster:'Safer Organisation', color:'var(--c-govern)',
+    rows:[
+      {src:'KCSIE 2025, Part 2', text:'Governing bodies and proprietors ensure safeguarding arrangements, a named lead, training, and effective oversight.'},
+      {src:'ISS Standard 34', text:'Leadership and management demonstrate the skills and knowledge to meet the standards consistently and actively promote wellbeing.'},
+      {src:'Working Together 2026', text:'Leaders understand early help and multi-agency duties and hold the setting to account for them.'},
+      {src:'NMS for Boarding 2026', text:'Governing body and leadership monitor the effectiveness of boarding and welfare provision and act where needed.', board:true}
+    ],
+    evid:'How is oversight evidenced? For example the named safeguarding governor, governor training records, minutes showing safeguarding scrutiny and challenge, and the DSL\u2019s evidence report to the board.' }
 ];
 
 /* ----------------------------------------------------------------
@@ -935,10 +1066,88 @@ let TOTAL_ITEMS = 0;
 const ALL_DIMS = [];
 CLUSTERS.forEach(c=>c.dims.forEach(d=>{ ALL_DIMS.push({cluster:c,dim:d}); TOTAL_ITEMS += d.items.length; }));
 
+// Why each statement is classified floor or developmental. Keyed by dimension name and statement number.
+// This text matches the classification review document shared with safeguarding leadership.
+const RATIONALE = {
+  'Recognise|1':'KCSIE 2025 Part 1: all staff must be able to identify indicators of abuse, neglect and exploitation.',
+  'Recognise|2':'KCSIE 2025 Part 1: all staff must know what to do and act on concerns; a shared threshold is core to that duty.',
+  'Recognise|3':'KCSIE 2025 Part 1: safeguarding is everyone\u2019s responsibility, not only the designated team.',
+  'Recognise|4':'Developmental: proximity, time and relationships strengthen recognition but are a quality of provision above the floor.',
+  'Engage|1':'KCSIE 2025 Part 1: staff must respond appropriately to disclosure, reassure and not investigate.',
+  'Engage|2':'Developmental: active bystander skill (the 4Ds) is good practice that matures over time, not a discrete statutory duty.',
+  'Engage|3':'KCSIE 2025 Part 1: staff must not investigate and must stay within role; misreading this is a recognised failure.',
+  'Engage|4':'Developmental: consistency of first response across all adults is a maturity aim above the floor.',
+  'Support|1':'KCSIE 2025 Part 1 / ISS Part 3: a child raising a concern must receive an appropriate, caring response.',
+  'Support|2':'Equality Act 2010 / KCSIE: reasonable adjustment and meeting individual need, including mental health, is a duty.',
+  'Support|3':'Developmental: sustaining momentum and follow-up is a quality of provision above the floor.',
+  'Support|4':'Developmental: a named trusted adult who follows up is strong practice but not a discrete statutory must.',
+  'Pause|1':'Developmental: understanding the purpose of the pause is good practice; the non-investigation duty is captured separately.',
+  'Pause|2':'KCSIE 2025 Part 1: staff must not investigate; accepting this is a floor duty.',
+  'Pause|3':'Developmental: structures that give permission to pause are an enabling condition above the floor.',
+  'Pause|4':'Developmental: shared trauma-informed understanding is a maturity aim, not a discrete statutory duty.',
+  'Offer|1':'KCSIE 2025 Part 1 / ISS Part 3: children must be able to access support; naming the formal route is a floor expectation.',
+  'Offer|2':'Developmental: surfacing informal sources of support is creative practice above the floor.',
+  'Offer|3':'Developmental: realism of provision is a quality measure above the floor.',
+  'Offer|4':'Developmental: confident signposting is a maturity aim above the floor.',
+  'Notify|1':'KCSIE 2025 Part 1: every member of staff must know how to raise a concern, including out of hours.',
+  'Notify|2':'KCSIE 2025 Part 1: concerns must be acted on and passed without delay; timing is a floor duty.',
+  'Notify|3':'Developmental: staff confidence is important but is a culture measure above the floor.',
+  'Notify|4':'KCSIE 2025 Part 1 / Not Working in Isolation: concerns must reach the DSL and not sit with one person.',
+  'Document|1':'KCSIE 2025 Part 1 / ISS Part 3: records must be made; timeliness is a floor expectation.',
+  'Document|2':'KCSIE 2025 Part 1: records must be factual and accurate, including the child\u2019s own words.',
+  'Document|3':'Developmental: having an agreed recording standard is good practice that supports the floor duty.',
+  'Document|4':'Developmental: legibility to an external reader is a quality measure above the floor.',
+  'The Helix: non-linear practice|1':'Developmental: understanding the non-linear nature of the steps is conceptual maturity.',
+  'The Helix: non-linear practice|2':'Developmental: flexible movement between steps is a practised skill above the floor.',
+  'The Helix: non-linear practice|3':'KCSIE 2025 Part 1: notifying and recording are the non-negotiable actions in every case.',
+  'The Helix: non-linear practice|4':'Developmental: holding the sequence under pressure is built through practice above the floor.',
+  'Protective Capacity|1':'KCSIE 2025 Part 1: safeguarding is everyone\u2019s responsibility; collective ownership is a floor expectation.',
+  'Protective Capacity|2':'Developmental: a visible, felt culture is a maturity aim above the floor.',
+  'Protective Capacity|3':'Developmental: shared language with partners is good practice; the information-sharing duty is captured separately.',
+  'Protective Capacity|4':'Developmental: treating relationships as the foundation is a cultural aim above the floor.',
+  'Student Agency and Voice|1':'Developmental: student voice shaping practice is a maturity aim above the floor.',
+  'Student Agency and Voice|2':'Developmental: accessible feedback routes are a quality of provision above the floor.',
+  'Student Agency and Voice|3':'Developmental: equipping peers to signpost is creative practice above the floor.',
+  'Student Agency and Voice|4':'KCSIE 2025 Part 1 / ISS Part 3: children must be able to raise a concern and have it acted on.',
+  'Student Experience and Psychological Safety|1':'Developmental: students trusting adults to respond calmly is a culture measure above the floor.',
+  'Student Experience and Psychological Safety|2':'Developmental: students understanding what happens next is good practice above the floor.',
+  'Student Experience and Psychological Safety|3':'Developmental: felt safety in unstructured times and boarding is an experience measure; the duty to keep them safe is captured elsewhere.',
+  'Student Experience and Psychological Safety|4':'KCSIE 2025 Part 1: children must be able to report safely and have concerns acted on; protection from retaliation is core.',
+  'Contextual Safeguarding|1':'KCSIE 2025 Part 1: safeguarding includes extra-familial and online harm; looking for it is a floor expectation.',
+  'Contextual Safeguarding|2':'Developmental: routine use of the 4Ps scan is a practised method above the floor.',
+  'Contextual Safeguarding|3':'Developmental: pattern recognition, including attendance signals, is analytical maturity above the floor.',
+  'Contextual Safeguarding|4':'KCSIE 2025 Part 5 / Prevent duty: child-on-child abuse, exploitation, online abuse and radicalisation are named statutory concerns.',
+  'Cultural Competence and Inclusion|1':'Developmental: cultural curiosity over assumption is a quality of practice above the floor.',
+  'Cultural Competence and Inclusion|2':'Developmental: awareness of communication styles affecting disclosure is a maturity aim above the floor.',
+  'Cultural Competence and Inclusion|3':'Equality Act 2010 / KCSIE: attending to children at heightened risk and removing barriers is a duty.',
+  'Cultural Competence and Inclusion|4':'Child protection primacy: protection must never be overridden by cultural sensitivity; this is a floor principle.',
+  'Foundational Principles|1':'Developmental: embedding evidence and learning is a quality of provision above the floor.',
+  'Foundational Principles|2':'Developmental: staff wellbeing and reflective supervision are strongly encouraged but not a discrete statutory must.',
+  'Foundational Principles|3':'Working Together 2026 / DPA 2018: information sharing must be lawful, proportionate and timely.',
+  'Foundational Principles|4':'KCSIE 2025 / Not Working in Isolation: collective decision-making and avoiding lone working is a floor expectation.',
+  'Pillars of Practice|1':'Developmental: proportionate professional judgement is a quality measure that matures above the floor.',
+  'Pillars of Practice|2':'KCSIE 2025 / ISS / codes of conduct: responses must be compliant with law and statutory guidance.',
+  'Pillars of Practice|3':'Developmental: trauma-informed, child-centred quality is a maturity aim above the floor.',
+  'Pillars of Practice|4':'Developmental: integrating all three pillars in every response is an advanced practice aim above the floor.',
+  'Safer Recruitment and Managing Allegations|1':'KCSIE 2025 Part 3 / ISS Part 4: safer recruitment with required checks and a trained recruiter is a statutory duty.',
+  'Safer Recruitment and Managing Allegations|2':'KCSIE 2025 Part 3 / ISS Part 4: maintaining a complete single central record is a statutory duty.',
+  'Safer Recruitment and Managing Allegations|3':'KCSIE 2025 Part 4: a code of conduct, allegations procedures and DBS/TRA referral at threshold are statutory duties.',
+  'Safer Recruitment and Managing Allegations|4':'KCSIE 2025 Part 4: low-level concerns must be understood, reported and recorded; this is a floor duty.',
+  'Governance and Oversight|1':'KCSIE 2025 Part 2: a named safeguarding governor and active board responsibility are expected.',
+  'Governance and Oversight|2':'KCSIE 2025 Part 2: governors must be trained appropriately to carry out their safeguarding responsibilities.',
+  'Governance and Oversight|3':'Developmental: the frequency and depth of board scrutiny is a quality of governance above the floor.',
+  'Governance and Oversight|4':'Developmental: the DSL evidencing duties to the board is strong assurance practice above the floor.'
+};
+
 // itemId -> context, for action plan
 const ITEM_INFO = {};
 CLUSTERS.forEach(c=>c.dims.forEach(d=>d.items.forEach((stmt,i)=>{
-  ITEM_INFO[`${d.id}_${i}`] = { cluster:c.name, dim:d.name, tip:d.tip, stmt };
+  ITEM_INFO[`${d.id}_${i}`] = {
+    cluster:c.name, dim:d.name, dimId:d.id, tip:d.tip, stmt,
+    floor: !!(d.cls && d.cls[i]==='floor'),
+    cite: primaryCitation(d.id),
+    why: RATIONALE[`${d.name}|${i+1}`] || ''
+  };
 })));
 
 // action plan working state: itemId -> {sel, action, owner, review, measure}
@@ -1073,12 +1282,18 @@ function buildAudit(){
           <p class="qline">${d.question}</p>`;
       d.items.forEach((stmt,i)=>{
         const itemId = `${d.id}_${i}`;
+        const isFloor = d.cls && d.cls[i] === 'floor';
         let segs = '';
         LEVELS.forEach(l=>{
           segs += `<button data-v="${l.v}" title="${l.full}" onclick="rate('${itemId}',${l.v})">${l.short}</button>`;
         });
-        html += `<div class="item">
-            <div class="stmt">${stmt}</div>
+        const why = (ITEM_INFO[itemId] && ITEM_INFO[itemId].why) ? ITEM_INFO[itemId].why : '';
+        const whyAttr = why.replace(/"/g,'&quot;');
+        const marker = isFloor
+          ? `<button type="button" class="floortag wtrig" data-why="${whyAttr}" data-floor="1" aria-label="Why this is a statutory floor" onclick="showWhy(this)">Statutory floor</button>`
+          : `<button type="button" class="whyicon wtrig" data-why="${whyAttr}" data-floor="0" aria-label="Why this is developmental" onclick="showWhy(this)">i</button>`;
+        html += `<div class="item${isFloor?' floor':''}">
+            <div class="stmt">${stmt}${why?marker:''}</div>
             <div class="seg" id="seg-${itemId}">${segs}</div>
           </div>`;
       });
@@ -1293,6 +1508,20 @@ function refresh(){
   document.getElementById('progFill').style.width = pct+'%';
   document.getElementById('progText').textContent = `${o.rated} of ${TOTAL_ITEMS} statements rated`;
 
+  // self-assessment tab badge: live count, tick when complete
+  const badge = document.getElementById('auditBadge');
+  if(badge){
+    if(o.rated >= TOTAL_ITEMS){
+      badge.className = 'tbadge done';
+      badge.textContent = '\u2713';
+      badge.title = 'All statements rated';
+    } else {
+      badge.className = 'tbadge';
+      badge.textContent = o.rated + '/' + TOTAL_ITEMS;
+      badge.title = o.rated + ' of ' + TOTAL_ITEMS + ' statements rated';
+    }
+  }
+
   // gauge
   const band = bandFor(o.avg);
   const scorePct = o.avg===null ? 0 : Math.round(((o.avg-1)/3)*100);
@@ -1317,6 +1546,8 @@ function refresh(){
 
   // priorities
   renderPriorities();
+  // compliance exposure
+  renderExposure();
   // escalation ladder live state
   refreshEscalation();
   // regulatory mapping bands
@@ -1346,6 +1577,49 @@ function barRow(label, avg){
     <div class="track"><div class="fill" style="width:${pct}%;background:${fill}"></div></div>
     <div class="val">${val}</div>
   </div>`;
+}
+
+// Primary statutory citation for a dimension, drawn from REG_MAP (first non-board row)
+function primaryCitation(dimId){
+  const r = REG_MAP.find(x=>x.dimId===dimId);
+  if(!r || !r.rows || !r.rows.length) return '';
+  const row = r.rows.find(rr=>!rr.board) || r.rows[0];
+  return row.src;
+}
+
+function renderExposure(){
+  const el = document.getElementById('exposureList');
+  if(!el) return;
+  const list = [];
+  CLUSTERS.forEach(c=>c.dims.forEach(d=>{
+    d.items.forEach((stmt,i)=>{
+      const r = state.ratings[`${d.id}_${i}`];
+      const isFloor = d.cls && d.cls[i]==='floor';
+      if(isFloor && (r===1 || r===2)){
+        list.push({v:r, dim:d.name, dimId:d.id, stmt, cite:primaryCitation(d.id)});
+      }
+    });
+  }));
+  // highest exposure first: Emerging (1) before Developing (2)
+  list.sort((a,b)=>a.v-b.v);
+  if(Object.keys(state.ratings).length===0){
+    el.innerHTML = `<p class="ph" style="margin:0">Your compliance exposure will appear here once you start rating.</p>`;
+    return;
+  }
+  if(list.length===0){
+    el.innerHTML = `<div class="allgreen">No statutory-floor statements are currently rated Emerging or Developing. Your floor duties are reflected as established or embedded in practice. Keep this under review.</div>`;
+    return;
+  }
+  el.innerHTML = list.map(p=>{
+    const color = p.v===1?'var(--m1)':'var(--m2)';
+    const tagn = p.v===1?'Emerging':'Developing';
+    const level = p.v===1?'Higher exposure':'Moderate exposure';
+    return `<div class="ecard" style="border-left-color:${color}">
+      <div class="etop"><span class="elevel" style="color:${color}">${level}</span><span class="ecite">${p.cite}</span></div>
+      <div class="estmt">${p.stmt}</div>
+      <div class="edim">${p.dim} \u00b7 rated ${tagn} \u00b7 statutory floor</div>
+    </div>`;
+  }).join('');
 }
 
 function renderPriorities(){
@@ -1415,24 +1689,44 @@ function downloadReport(){
       t += '\n'+d.name+' ['+(a===null?'not yet rated':a.toFixed(2)+', '+bandFor(a).name)+']\n';
       d.items.forEach((stmt,i)=>{
         const r = state.ratings[`${d.id}_${i}`];
-        t += '  ['+(r?L[r]:'not rated')+'] '+stmt+'\n';
+        const floor = (d.cls && d.cls[i]==='floor') ? ' (statutory floor)' : '';
+        t += '  ['+(r?L[r]:'not rated')+'] '+stmt+floor+'\n';
       });
       if(state.notes[d.id]) t += '  Notes: '+state.notes[d.id]+'\n';
     });
   });
 
+  // compliance exposure: weak floor items, citation, highest first
+  const exp = [];
+  CLUSTERS.forEach(c=>c.dims.forEach(d=>d.items.forEach((stmt,i)=>{
+    const r = state.ratings[`${d.id}_${i}`];
+    if((d.cls && d.cls[i]==='floor') && (r===1||r===2)) exp.push({v:r, dim:d.name, stmt, cite:primaryCitation(d.id)});
+  })));
+  exp.sort((a,b)=>a.v-b.v);
+  t += '\n\nCOMPLIANCE EXPOSURE\n-------------------\n';
+  t += 'Statutory-floor statements rated Emerging or Developing, highest exposure first.\n';
+  t += 'This indicates where to direct attention; it is not a judgement of compliance.\n';
+  if(exp.length===0){ t += '\nNo statutory-floor statements rated Emerging or Developing.\n'; }
+  else {
+    exp.forEach((p,idx)=>{
+      t += '\n'+(idx+1)+'. '+(p.v===1?'Higher exposure':'Moderate exposure')+' ['+p.cite+']\n';
+      t += '   '+p.dim+': '+p.stmt+'\n';
+      t += '   Rated: '+(p.v===1?'Emerging':'Developing')+'\n';
+    });
+  }
+
   // priorities
   const list = [];
   CLUSTERS.forEach(c=>c.dims.forEach(d=>d.items.forEach((stmt,i)=>{
     const r = state.ratings[`${d.id}_${i}`];
-    if(r===1||r===2) list.push({v:r,dim:d.name,stmt,tip:d.tip});
+    if(r===1||r===2) list.push({v:r,dim:d.name,stmt,tip:d.tip,floor:(d.cls&&d.cls[i]==='floor')});
   })));
-  list.sort((a,b)=>a.v-b.v);
+  list.sort((a,b)=>{ const fa=a.floor?0:1,fb=b.floor?0:1; if(fa!==fb)return fa-fb; return a.v-b.v; });
   t += '\n\nWHERE TO FOCUS NEXT\n-------------------\n';
   if(list.length===0){ t += 'No statements rated Emerging or Developing. Sustain practice and keep reviewing.\n'; }
   else {
     list.forEach((p,idx)=>{
-      t += '\n'+(idx+1)+'. '+p.dim+' ('+(p.v===1?'Emerging':'Developing')+')\n';
+      t += '\n'+(idx+1)+'. '+p.dim+' ('+(p.v===1?'Emerging':'Developing')+(p.floor?', statutory floor':'')+')\n';
       t += '   '+p.stmt+'\n';
       t += '   Consider: '+p.tip+'\n';
     });
@@ -1471,7 +1765,12 @@ function weakItems(){
     const id = `${d.id}_${i}`, r = state.ratings[id];
     if(r===1 || r===2) out.push({id, rating:r, info:ITEM_INFO[id]});
   })));
-  out.sort((a,b)=>a.rating-b.rating);
+  // floor items first (highest exposure), then by rating (Emerging before Developing)
+  out.sort((a,b)=>{
+    const fa = a.info.floor?0:1, fb = b.info.floor?0:1;
+    if(fa!==fb) return fa-fb;
+    return a.rating-b.rating;
+  });
   return out;
 }
 
@@ -1506,8 +1805,9 @@ function renderActionPlan(){
         <input type="checkbox" id="apck-${it.id}" ${st.sel?'checked':''} onchange="apToggle('${it.id}',this)" aria-label="Include in action plan" />
         <div class="meta2">
           <div class="d">${it.info.cluster} \u00b7 ${it.info.dim}
-            <span class="badge" style="background:${bg};color:${color}">${bandn}</span></div>
+            <span class="badge" style="background:${bg};color:${color}">${bandn}</span>${it.info.floor?` <span class="floortag">Statutory floor</span>`:''}</div>
           <div class="s">${it.info.stmt}</div>
+          ${it.info.floor && it.info.cite?`<div class="apcite">${it.info.cite}</div>`:''}
         </div>
       </div>
       <div class="apfields">
@@ -1648,11 +1948,11 @@ function downloadActionPlan(){
   const o = overall();
   const bandName = o.avg===null ? 'Not yet rated' : bandFor(o.avg).name;
 
-  const cols=[2100,3300,1000,3400,1500,1270,2000]; // sums to 14570 (landscape A4, 2cm margins)
-  const headers=['Focus area','Identified gap','Current rating','Agreed action','Owner','Review by','Success measure'];
+  const cols=[1700,2700,950,1900,2900,1300,1120,2000]; // 8 cols, sums to 14570 (landscape A4, 2cm margins)
+  const headers=['Focus area','Identified gap','Rating','Statutory basis','Agreed action','Owner','Review by','Success measure'];
 
   let headerRow='<w:tr><w:trPr><w:tblHeader/></w:trPr>';
-  headers.forEach((h,i)=>{ headerRow += wCell(h, cols[i], {fill:'1E3D6F', white:true, b:true, sz:18, jc:(i===2||i===5)?'center':'left'}); });
+  headers.forEach((h,i)=>{ headerRow += wCell(h, cols[i], {fill:'1E3D6F', white:true, b:true, sz:18, jc:(i===2||i===6)?'center':'left'}); });
   headerRow += '</w:tr>';
 
   let bodyRows='';
@@ -1661,14 +1961,16 @@ function downloadActionPlan(){
     const ratingTxt = it.rating===1?'Emerging':'Developing';
     const shade = idx%2 ? 'F4F6FA' : null;
     const cellOpt = shade ? {fill:shade} : {};
+    const basis = (it.info.floor ? 'Statutory floor. ' : 'Developmental. ') + (it.info.cite || '');
     bodyRows += '<w:tr>'
       + wCell(it.info.dim, cols[0], Object.assign({b:true,color:'1E3D6F'}, cellOpt))
       + wCell(it.info.stmt, cols[1], cellOpt)
       + wCell(ratingTxt, cols[2], Object.assign({jc:'center', b:true, color:(it.rating===1?'C0392B':'B56F18')}, cellOpt))
-      + wCell(st.action||'', cols[3], cellOpt)
-      + wCell(st.owner||'', cols[4], cellOpt)
-      + wCell(st.review||'', cols[5], Object.assign({jc:'center'}, cellOpt))
-      + wCell(st.measure||'', cols[6], cellOpt)
+      + wCell(basis, cols[3], Object.assign(it.info.floor?{b:true,color:'1E3D6F'}:{color:'6B7385'}, cellOpt))
+      + wCell(st.action||'', cols[4], cellOpt)
+      + wCell(st.owner||'', cols[5], cellOpt)
+      + wCell(st.review||'', cols[6], Object.assign({jc:'center'}, cellOpt))
+      + wCell(st.measure||'', cols[7], cellOpt)
       + '</w:tr>';
   });
 
@@ -1729,7 +2031,7 @@ function buildAiPayload(){
   const clusters = CLUSTERS.map(c=>{ const a=clusterAvg(c); return {name:c.name, avg:a, band:a===null?null:bandFor(a).name}; });
   const dimensions = [];
   CLUSTERS.forEach(c=>c.dims.forEach(d=>{ const a=dimAvg(d); dimensions.push({cluster:c.name, name:d.name, avg:a, band:a===null?null:bandFor(a).name}); }));
-  const weak = weakItems().map(it=>({cluster:it.info.cluster, dim:it.info.dim, statement:it.info.stmt, rating:it.rating===1?'Emerging':'Developing'}));
+  const weak = weakItems().map(it=>({cluster:it.info.cluster, dim:it.info.dim, statement:it.info.stmt, rating:it.rating===1?'Emerging':'Developing', statutoryFloor:!!it.info.floor, basis:it.info.cite||''}));
   const actions = weakItems().filter(it=>apState[it.id] && apState[it.id].sel).map(it=>({
     dim:it.info.dim, statement:it.info.stmt,
     action:apState[it.id].action, owner:apState[it.id].owner, review:apState[it.id].review, measure:apState[it.id].measure
@@ -1812,6 +2114,53 @@ document.addEventListener('click', e=>{
   if(panel.contains(e.target) || e.target.closest('#keyTab')) return;
   toggleKey(false);
 });
+
+/* ----------------------------------------------------------------
+   Classification explanation popover
+-----------------------------------------------------------------*/
+let whyTrigger = null;
+function showWhy(el){
+  const pop = document.getElementById('whyPop');
+  const why = el.getAttribute('data-why') || '';
+  const isFloor = el.getAttribute('data-floor') === '1';
+  // toggle off if the same trigger is tapped again
+  if(whyTrigger === el && pop.classList.contains('show')){ hideWhy(); return; }
+  whyTrigger = el;
+  const tag = document.getElementById('wpTag');
+  tag.textContent = isFloor ? 'Statutory floor' : 'Developmental';
+  tag.className = 'wptag ' + (isFloor ? 'floor' : 'dev');
+  document.getElementById('wpBody').textContent = why;
+  pop.classList.add('show');
+  positionWhy(el);
+}
+function positionWhy(el){
+  const pop = document.getElementById('whyPop');
+  const r = el.getBoundingClientRect();
+  const pw = pop.offsetWidth, ph = pop.offsetHeight;
+  const margin = 8;
+  let left = r.left;
+  if(left + pw > window.innerWidth - margin) left = window.innerWidth - pw - margin;
+  if(left < margin) left = margin;
+  let top = r.bottom + 6;
+  if(top + ph > window.innerHeight - margin) top = r.top - ph - 6; // flip above if no room below
+  if(top < margin) top = margin;
+  pop.style.left = left + 'px';
+  pop.style.top = top + 'px';
+}
+function hideWhy(){
+  const pop = document.getElementById('whyPop');
+  pop.classList.remove('show');
+  whyTrigger = null;
+}
+document.addEventListener('click', e=>{
+  const pop = document.getElementById('whyPop');
+  if(!pop.classList.contains('show')) return;
+  if(pop.contains(e.target) || e.target.closest('.wtrig')) return;
+  hideWhy();
+});
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') hideWhy(); });
+window.addEventListener('resize', ()=>{ if(whyTrigger) positionWhy(whyTrigger); });
+window.addEventListener('scroll', ()=>{ if(whyTrigger) hideWhy(); }, true);
 
 /* ----------------------------------------------------------------
    Tab navigation
