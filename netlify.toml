@@ -1,0 +1,13 @@
+# Netlify configuration for the RESPOND Self-Assessment tool.
+# The site is the static HTML at the repository root; the AI reflection
+# runs in a serverless function under netlify/functions.
+
+[build]
+  publish = "."
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+# Set the API key as an environment variable in the Netlify UI, not here:
+#   Site settings > Environment variables > ANTHROPIC_API_KEY
