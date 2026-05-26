@@ -217,6 +217,52 @@
   .aiout.error{color:var(--m1);background:rgba(192,57,43,.06);border-color:rgba(192,57,43,.22);font-style:normal}
   @media print{ .aipanel .actions{display:none} }
 
+  /* ---------- Regulatory and evidence base ---------- */
+  .reg{margin:0 0 20px;padding:26px 24px}
+  .reg h2{margin:0 0 4px;font-size:1.5rem;color:var(--navy);font-weight:800}
+  .reg .sub{color:var(--muted);margin:0 0 4px;font-size:.93rem;max-width:76ch}
+  .reg .ctx{color:var(--ink);margin:0 0 16px;font-size:.92rem;max-width:76ch}
+  .reg .boardrow{display:flex;align-items:center;gap:12px;margin:14px 0 18px;padding:12px 16px;background:var(--soft);border-radius:11px;flex-wrap:wrap}
+  .reg .boardrow .bt{font-size:.9rem;font-weight:600;color:var(--ink)}
+  .reg .boardrow .bd{font-size:.84rem;color:var(--muted);flex:1 1 220px;min-width:200px}
+  .toggle{position:relative;width:46px;height:26px;flex:0 0 auto;cursor:pointer}
+  .toggle input{opacity:0;width:0;height:0;position:absolute}
+  .toggle .tr{position:absolute;inset:0;background:#c8ccd6;border-radius:999px;transition:background .18s ease}
+  .toggle .tk{position:absolute;top:3px;left:3px;width:20px;height:20px;background:#fff;border-radius:50%;transition:transform .18s ease;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+  .toggle input:checked + .tr{background:var(--c-engage)}
+  .toggle input:checked + .tr + .tk{transform:translateX(20px)}
+
+  .racc{border:1px solid var(--line);border-radius:12px;margin:10px 0;overflow:hidden;background:#fff}
+  .racc > summary{list-style:none;cursor:pointer;padding:15px 18px;display:flex;align-items:center;gap:13px}
+  .racc > summary::-webkit-details-marker{display:none}
+  .racc > summary:hover{background:var(--soft)}
+  .racc .rglyph{flex:0 0 auto;width:32px;height:32px;border-radius:8px;color:#fff;font-weight:800;display:flex;align-items:center;justify-content:center;font-size:.95rem}
+  .racc .rtitle{font-weight:700;font-size:1.04rem;color:var(--ink)}
+  .racc .rcluster{font-size:.74rem;color:var(--muted);margin-top:1px}
+  .racc .rband{margin-left:auto;font-size:.7rem;font-weight:700;letter-spacing:.05em;text-transform:uppercase;padding:5px 11px;border-radius:999px;background:var(--soft);color:var(--muted);white-space:nowrap}
+  .racc .rband[data-band="emerging"]{background:rgba(192,57,43,.1);color:var(--m1)}
+  .racc .rband[data-band="developing"]{background:rgba(224,146,47,.12);color:#b56f18}
+  .racc .rband[data-band="established"]{background:rgba(60,155,143,.12);color:#2c7d72}
+  .racc .rband[data-band="embedded"]{background:rgba(46,125,91,.12);color:var(--m4)}
+  .racc .chev{flex:0 0 auto;color:var(--muted);transition:transform .18s ease;font-size:.9rem}
+  .racc[open] .chev{transform:rotate(90deg)}
+  .rbody{padding:2px 18px 18px;border-top:1px solid var(--line)}
+  .rmaps{font-size:.74rem;text-transform:uppercase;letter-spacing:.07em;color:var(--muted);font-weight:700;margin:14px 0 8px}
+  .rdtable{width:100%;border-collapse:collapse;font-size:.88rem}
+  .rdtable td{padding:8px 10px;border-top:1px solid var(--line);vertical-align:top}
+  .rdtable tr:first-child td{border-top:none}
+  .rdtable .src{white-space:nowrap;font-weight:600;color:var(--navy);width:1%}
+  .rdtable .amber td,.rdtable tr.amber td{background:rgba(224,146,47,.07)}
+  .rdtable .src .flag{display:inline-block;margin-left:6px;font-size:.62rem;font-weight:700;color:#b56f18;background:rgba(224,146,47,.16);padding:1px 6px;border-radius:999px;text-transform:none;letter-spacing:0;vertical-align:middle}
+  .rsrc-board{display:none}
+  .reg.show-board .rsrc-board{display:table-row}
+  .revid{margin-top:14px;background:var(--soft);border-left:3px solid var(--navy2);padding:11px 14px;border-radius:0 9px 9px 0}
+  .revid .rl{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--navy);font-weight:700;margin-bottom:5px}
+  .revid .rq{font-size:.88rem;color:var(--ink);margin:0}
+  .reg .legalnote{margin-top:18px;font-size:.82rem;color:var(--muted);max-width:78ch}
+  .reg .legalnote .amberkey{display:inline-block;width:10px;height:10px;border-radius:2px;background:rgba(224,146,47,.5);vertical-align:middle;margin:0 2px}
+  @media print{ .racc{break-inside:avoid} .racc:not([open]) .rbody{display:block} }
+
   /* ---------- Action bar ---------- */
   .actions{display:flex;gap:12px;flex-wrap:wrap;margin:26px 0 60px}
   button.act{font:inherit;font-weight:600;font-size:.92rem;padding:12px 20px;border-radius:10px;cursor:pointer;border:1px solid var(--navy);background:var(--navy);color:#fff;transition:all .15s ease}
@@ -234,6 +280,37 @@
   .sticky .prog .pl{font-size:.78rem;color:var(--muted)}
   #saveStatus{color:var(--m4)}
   #saveStatus.muted{color:var(--muted)}
+
+  /* ---------- Slide-out key (maturity scale) ---------- */
+  #keyTab{
+    position:fixed;right:0;top:50%;transform:translateY(-50%);z-index:60;
+    background:var(--navy);color:#fff;border:none;cursor:pointer;
+    font:inherit;font-weight:700;font-size:.78rem;letter-spacing:.04em;
+    writing-mode:vertical-rl;text-orientation:mixed;
+    padding:16px 9px;border-radius:11px 0 0 11px;box-shadow:-2px 0 12px rgba(31,42,68,.16);
+    display:flex;align-items:center;gap:8px
+  }
+  #keyTab:hover{background:var(--navy2)}
+  #keyTab .kd{display:flex;flex-direction:column;gap:3px;writing-mode:horizontal-tb}
+  #keyTab .kd i{width:9px;height:9px;border-radius:2px;display:block}
+  #keyPanel{
+    position:fixed;right:0;top:50%;transform:translateY(-50%) translateX(110%);z-index:61;
+    width:300px;max-width:86vw;background:#fff;border:1px solid var(--line);
+    border-radius:14px 0 0 14px;box-shadow:-8px 0 32px rgba(31,42,68,.18);
+    padding:20px 20px 18px;transition:transform .28s ease
+  }
+  #keyPanel.open{transform:translateY(-50%) translateX(0)}
+  #keyPanel h3{margin:0 0 3px;font-size:1rem;color:var(--navy);font-weight:700}
+  #keyPanel .kp-sub{margin:0 0 14px;font-size:.8rem;color:var(--muted)}
+  #keyPanel .klv{display:flex;gap:11px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--line)}
+  #keyPanel .klv:first-of-type{border-top:none}
+  #keyPanel .klv .ksw{flex:0 0 auto;width:13px;height:13px;border-radius:3px;margin-top:3px}
+  #keyPanel .klv b{display:block;font-size:.9rem;color:var(--ink)}
+  #keyPanel .klv span{display:block;font-size:.82rem;color:var(--muted);margin-top:2px}
+  #keyClose{position:absolute;top:11px;right:12px;border:none;background:none;cursor:pointer;color:var(--muted);font-size:1.3rem;line-height:1;padding:2px 6px;border-radius:6px}
+  #keyClose:hover{background:var(--soft);color:var(--ink)}
+  @media print{ #keyTab,#keyPanel{display:none} }
+  @media (max-width:720px){ #keyTab{padding:13px 7px;font-size:.72rem} }
   .sticky button{font:inherit;font-weight:600;font-size:.85rem;padding:9px 16px;border-radius:9px;border:1px solid var(--navy);background:var(--navy);color:#fff;cursor:pointer}
   .sticky button:hover{background:var(--navy2)}
 
@@ -365,6 +442,25 @@
     </div>
   </section>
 
+  <!-- Regulatory and evidence base -->
+  <section class="panel reg" id="reg">
+    <h2>The regulatory and evidence base</h2>
+    <p class="sub">RESPOND is driven by regulation, research and evidence. This section does not ask whether you comply, it shows how the practice you have just assessed demonstrates the duties in the statutory framework. Compliance follows the work, it is the consequence of doing the right thing well.</p>
+    <p class="ctx">Each RESPOND area below expands to show the statutory duties and guidance that the practice maps onto, with a prompt to help you locate the evidence an inspector would expect to see. Independent schools must meet the Independent School Standards and have regard to the named statutory guidance. "Have regard to" means a school can demonstrate it either follows the guidance or has good reason to depart from it.</p>
+
+    <div class="boardrow">
+      <label class="toggle"><input type="checkbox" id="boardToggle" onchange="toggleBoarding(this.checked)" /><span class="tr"></span><span class="tk"></span></label>
+      <div>
+        <div class="bt">Boarding setting</div>
+        <div class="bd">Turn on to include the National Minimum Standards for Boarding Schools alongside each area.</div>
+      </div>
+    </div>
+
+    <div id="regList"></div>
+
+    <p class="legalnote">Rows shaded <span class="amberkey"></span> amber are in transition: they reflect guidance that is newly in force, in consultation, or operative from a future date, and should be tracked. This mapping supports inspection readiness but is not a compliance guarantee, and it complements rather than replaces your safeguarding policy, the full statutory texts, and professional judgement. Sources are referenced by their short titles; always work from the current full guidance.</p>
+  </section>
+
   <!-- RESPOND Safeguarding Framework: AI reflection -->
   <section class="panel aipanel" id="aiReflection">
     <h2><span class="mk" aria-hidden="true">
@@ -397,6 +493,23 @@
     <p>Your progress is saved automatically in this browser on this device only. It is never sent anywhere. It will not appear on another device or browser, and clearing your browser data or using Reset will remove it, so export your summary or action plan to keep a copy.</p>
   </footer>
 </div>
+
+<!-- Slide-out key (maturity scale), available throughout the assessment -->
+<button id="keyTab" onclick="toggleKey()" aria-label="Open the rating key" aria-expanded="false">
+  <span class="kd" aria-hidden="true">
+    <i style="background:var(--m1)"></i><i style="background:var(--m2)"></i><i style="background:var(--m3)"></i><i style="background:var(--m4)"></i>
+  </span>
+  KEY
+</button>
+<aside id="keyPanel" role="dialog" aria-label="Rating key" aria-hidden="true">
+  <button id="keyClose" onclick="toggleKey(false)" aria-label="Close the key">&times;</button>
+  <h3>The rating key</h3>
+  <p class="kp-sub">What each level means as you rate.</p>
+  <div class="klv"><span class="ksw" style="background:var(--m1)"></span><div><b>Emerging</b><span>Recognised in principle but not yet consistent in practice.</span></div></div>
+  <div class="klv"><span class="ksw" style="background:var(--m2)"></span><div><b>Developing</b><span>In place in parts of the setting or with some people, but uneven.</span></div></div>
+  <div class="klv"><span class="ksw" style="background:var(--m3)"></span><div><b>Established</b><span>Consistent and understood across the setting and reliably done.</span></div></div>
+  <div class="klv"><span class="ksw" style="background:var(--m4)"></span><div><b>Embedded</b><span>Lived and felt, sustained under pressure, and routinely reviewed.</span></div></div>
+</aside>
 
 <!-- Sticky progress -->
 <div class="sticky">
@@ -587,6 +700,93 @@ const ESCALATION = [
 ];
 
 /* ----------------------------------------------------------------
+   Regulatory and evidence base
+   Each RESPOND area maps to the statutory duties its practice demonstrates.
+   src rows: {src, text, board?:true for NMS-only, amber?:true for transition}
+   Sourced from project statutory texts; not a compliance guarantee.
+-----------------------------------------------------------------*/
+const REG_MAP = [
+  { dimId:'recognise', area:'Recognise', cluster:'Relational', color:'var(--c-recognise)',
+    rows:[
+      {src:'ISS Part 3, para 7', text:'Arrangements to safeguard and promote the welfare of students, having regard to guidance issued by the Secretary of State.'},
+      {src:'KCSIE 2025, Part 1', text:'All staff to know, notice and do what is needed to keep children safe, and to recognise indicators of abuse, neglect and exploitation.'},
+      {src:'Working Together 2026', text:'A shared responsibility to identify children who may need help or protection at the earliest point.'},
+      {src:'NMS for Boarding 2026', text:'Boarding staff are alert to the welfare of boarders in residential settings, including out of teaching hours.', board:true}
+    ],
+    evid:'Where would an inspector see that recognition is shared across all staff roles? For example induction and refresh training records, the staff handbook indicators, and examples of concerns raised by non-teaching staff.' },
+
+  { dimId:'engage', area:'Engage', cluster:'Relational', color:'var(--c-engage)',
+    rows:[
+      {src:'KCSIE 2025, Part 1', text:'Staff respond appropriately to a child who discloses, reassure, listen and do not investigate or promise confidentiality.'},
+      {src:'ISS Part 3, para 7', text:'Welfare arrangements operate in practice, not only on paper. What is seen on the ground determines whether the standard is met.'},
+      {src:'NMS for Boarding 2026', text:'Boarders can readily contact and confide in staff, and approachable adults are available across the boarding day.', board:true}
+    ],
+    evid:'How would you show staff respond consistently and stay within role? For example training on handling disclosures, the staff code of conduct, and student feedback on being listened to.' },
+
+  { dimId:'support', area:'Support', cluster:'Relational', color:'var(--c-support)',
+    rows:[
+      {src:'KCSIE 2025, Part 1', text:'Early help and ongoing support for children, with a named designated safeguarding lead and a clear support pathway.'},
+      {src:'ISS Part 3', text:'The welfare of students is actively promoted, with policies treated as living documents tailored to context.'},
+      {src:'Working Together 2026', text:'Coordinated support around the child, with the right help provided at the right time.'},
+      {src:'NMS for Boarding 2026', text:'Each boarder has access to an appropriate adult for support, and provision is made for individual welfare needs.', board:true}
+    ],
+    evid:'How is follow-up evidenced after a first conversation? For example case records showing continuity of support, the named trusted adult arrangement, and adjustments for SEND, EAL or cultural context.' },
+
+  { dimId:'pause', area:'Pause', cluster:'The Bridge', color:'var(--c-pause)',
+    rows:[
+      {src:'KCSIE 2025, Part 1', text:'Staff act on concerns without delay, do not investigate, and follow the school referral route, exercising professional judgement.'},
+      {src:'Restrictive Interventions 2026', text:'Prevention and de-escalation are prioritised, with calm, proportionate responses before any intervention.', amber:true},
+      {src:'Trauma-informed practice (evidence base)', text:'A regulated, considered response supports safety and dignity, consistent with the ACT mindset underpinning RESPOND.'}
+    ],
+    evid:'How do your structures give staff permission to pause and not investigate? For example the staff flowchart, training on thresholds, and de-escalation guidance in the behaviour and restrictive interventions policy.' },
+
+  { dimId:'offer', area:'Offer', cluster:'Systems', color:'var(--c-offer)',
+    rows:[
+      {src:'KCSIE 2025, Part 1', text:'Children are signposted to appropriate support, including mental health and external services where needed.'},
+      {src:'ISS Part 3', text:'Welfare provision is appropriate to the needs of students at the school.'},
+      {src:'Working Together 2026', text:'Multi-agency support is accessed where a child needs help beyond what the school can provide alone.'},
+      {src:'NMS for Boarding 2026', text:'Boarders have access to a range of activities and to health and wellbeing provision within the boarding setting.', board:true}
+    ],
+    evid:'Can you show the full range of what is on offer, formal and informal? For example the support map, pastoral and counselling provision, clubs and chaplaincy, and how students are signposted.' },
+
+  { dimId:'notify', area:'Notify', cluster:'Systems', color:'var(--c-notify)',
+    rows:[
+      {src:'KCSIE 2025, Part 1', text:'Concerns are referred to the DSL (or deputy) as soon as possible, and onward to children\u2019s social care or police where there is risk of harm.'},
+      {src:'Working Together 2026', text:'Timely information sharing between agencies, with referrals made without delay where a child is at risk.'},
+      {src:'Children\u2019s Wellbeing and Schools Act 2025', text:'Provisions relating to mandatory reporting of child sexual abuse, strengthening the duty to report.', amber:true},
+      {src:'NMS for Boarding 2026', text:'Clear arrangements for raising and escalating concerns within boarding, including out of hours.', board:true}
+    ],
+    evid:'How would you show notifications are timely and confident? For example the referral flowchart with who and how, recognition-to-notification timings in your case system, and out-of-hours and boarding routes.' },
+
+  { dimId:'document', area:'Document', cluster:'Systems', color:'var(--c-document)',
+    rows:[
+      {src:'KCSIE 2025, Part 1', text:'Concerns are recorded accurately, including the child\u2019s own words, with clear, factual, dated and timed records.'},
+      {src:'ISS Part 3, para 7', text:'Safeguarding arrangements are evidenced through proper records that can be checked at inspection.'},
+      {src:'Restrictive Interventions 2026', text:'Statutory duty to record each significant use of force, and to record and report seclusion and restraint, as soon as practicable.', amber:true},
+      {src:'Restrictive Interventions 2026', text:'Independent schools must provide information about a seclusion or restraint incident to parents in writing.', amber:true, board:false},
+      {src:'NMS for Boarding 2026', text:'Records relating to boarders\u2019 welfare are maintained and accessible.', board:true}
+    ],
+    evid:'What proportion of records are prompt and factual? For example a sample audit against a recording standard, the recording template, and how opinion and bias are kept out of entries.' },
+
+  { dimId:'context', area:'Contextual Safeguarding', cluster:'Foundations', color:'var(--c-context)',
+    rows:[
+      {src:'KCSIE 2025, Part 1', text:'Safeguarding includes harm beyond the home and school, including extra-familial and online contexts.'},
+      {src:'ISS Part 3', text:'Policy and practice are based on a wide view of what may happen to students, in school and beyond it.'},
+      {src:'Working Together 2026', text:'Recognition of contextual and extra-familial risk in assessing and responding to a child\u2019s needs.'},
+      {src:'NMS for Boarding 2026', text:'Boarders are protected from harm within the residential community, including peer-on-peer contexts.', board:true}
+    ],
+    evid:'How do you evidence a contextual response? For example a People, Places, Platforms, Patterns scan, online monitoring reports, and actions taken at the level of a group or location rather than only an individual.' },
+
+  { dimId:'agency', area:'Student Agency and Voice', cluster:'Foundations', color:'var(--c-agency)',
+    rows:[
+      {src:'KCSIE 2025, Part 1', text:'Systems are in place for children to raise concerns and to feel listened to, with their wishes and feelings taken into account.'},
+      {src:'ISS Part 3', text:'Student wellbeing is promoted, with arrangements that reflect students\u2019 views.'},
+      {src:'NMS for Boarding 2026', text:'Boarders\u2019 views are sought and acted on, and they know how to make a complaint or raise a concern.', board:true}
+    ],
+    evid:'How is student voice evidenced as integral? For example a reporting route students trust, records of student feedback shaping practice, and peer support arrangements.' }
+];
+
+/* ----------------------------------------------------------------
    State
 -----------------------------------------------------------------*/
 const state = { ratings:{}, notes:{} };
@@ -638,7 +838,8 @@ function snapshot(){
     },
     ratings: state.ratings,
     notes: state.notes,
-    ap: apState
+    ap: apState,
+    boarding: !!(document.getElementById('reg') && document.getElementById('reg').classList.contains('show-board'))
   };
 }
 
@@ -683,6 +884,10 @@ function loadSaved(){
     if(data.id.school) document.getElementById('school').value = data.id.school;
     if(data.id.assessor) document.getElementById('assessor').value = data.id.assessor;
     if(data.id.date) document.getElementById('date').value = data.id.date;
+  }
+  if(data.boarding){
+    const bt = document.getElementById('boardToggle');
+    if(bt){ bt.checked = true; document.getElementById('reg').classList.add('show-board'); }
   }
   return true;
 }
@@ -795,6 +1000,52 @@ function refreshEscalation(){
 }
 
 /* ----------------------------------------------------------------
+   Regulatory and evidence base
+-----------------------------------------------------------------*/
+function regEscape(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+function buildReg(){
+  const root = document.getElementById('regList');
+  root.innerHTML = REG_MAP.map(r=>{
+    const rows = r.rows.map(row=>{
+      const cls = (row.amber?'amber ':'') + (row.board?'rsrc-board':'');
+      const flag = row.amber ? '<span class="flag">in transition</span>' : '';
+      return `<tr class="${cls.trim()}"><td class="src">${regEscape(row.src)}${flag}</td><td>${regEscape(row.text)}</td></tr>`;
+    }).join('');
+    return `<details class="racc" id="racc-${r.dimId}">
+      <summary>
+        <span class="rglyph" style="background:${r.color}">${regEscape(r.area.charAt(0))}</span>
+        <span><span class="rtitle">${regEscape(r.area)}</span><span class="rcluster">${regEscape(r.cluster)}</span></span>
+        <span class="rband" id="rband-${r.dimId}" data-band="">Not yet rated</span>
+        <span class="chev">\u25B6</span>
+      </summary>
+      <div class="rbody">
+        <div class="rmaps">Statutory duties and guidance this practice demonstrates</div>
+        <table class="rdtable"><tbody>${rows}</tbody></table>
+        <div class="revid"><div class="rl">Evidence to locate</div><p class="rq">${regEscape(r.evid)}</p></div>
+      </div>
+    </details>`;
+  }).join('');
+}
+
+function refreshReg(){
+  REG_MAP.forEach(r=>{
+    const band = dimBandById(r.dimId);
+    const el = document.getElementById('rband-'+r.dimId);
+    if(!el) return;
+    if(!band){ el.dataset.band=''; el.textContent='Not yet rated'; return; }
+    el.dataset.band = band.key;
+    el.textContent = band.name;
+  });
+}
+
+function toggleBoarding(on){
+  const sec = document.getElementById('reg');
+  sec.classList.toggle('show-board', !!on);
+  save();
+}
+
+/* ----------------------------------------------------------------
    Interaction
 -----------------------------------------------------------------*/
 function rate(itemId, v){
@@ -878,6 +1129,8 @@ function refresh(){
   renderPriorities();
   // escalation ladder live state
   refreshEscalation();
+  // regulatory mapping bands
+  refreshReg();
   // action plan candidates
   renderActionPlan();
 }
@@ -1013,6 +1266,7 @@ function resetAll(){
   Object.keys(apState).forEach(k=>delete apState[k]);
   document.querySelectorAll('.seg button.sel').forEach(b=>b.classList.remove('sel'));
   document.querySelectorAll('.notes textarea').forEach(t=>t.value='');
+  const bt = document.getElementById('boardToggle'); if(bt){ bt.checked=false; document.getElementById('reg').classList.remove('show-board'); }
   clearSaved();
   refresh();
   setSaveStatus('Cleared', true);
@@ -1278,6 +1532,7 @@ function buildAiPayload(){
   CLUSTERS.forEach(c=>c.dims.forEach(d=>{ const n=state.notes[d.id]; if(n && n.trim()) notes[d.name]=n.trim(); }));
   return {
     school: (document.getElementById('school').value||'').trim(),
+    boarding: !!(document.getElementById('reg') && document.getElementById('reg').classList.contains('show-board')),
     overall: { band:o.avg===null?null:bandFor(o.avg).name, avg:o.avg, rated:o.rated, total:TOTAL_ITEMS },
     clusters, dimensions, weak, actions, notes
   };
@@ -1333,10 +1588,31 @@ function aiCopy(){
 }
 
 /* ----------------------------------------------------------------
+   Slide-out key (maturity scale)
+-----------------------------------------------------------------*/
+function toggleKey(force){
+  const panel = document.getElementById('keyPanel');
+  const tab = document.getElementById('keyTab');
+  const open = (typeof force === 'boolean') ? force : !panel.classList.contains('open');
+  panel.classList.toggle('open', open);
+  panel.setAttribute('aria-hidden', open ? 'false' : 'true');
+  tab.setAttribute('aria-expanded', open ? 'true' : 'false');
+  tab.style.display = open ? 'none' : '';
+}
+document.addEventListener('keydown', e=>{ if(e.key==='Escape') toggleKey(false); });
+document.addEventListener('click', e=>{
+  const panel = document.getElementById('keyPanel');
+  if(!panel.classList.contains('open')) return;
+  if(panel.contains(e.target) || e.target.closest('#keyTab')) return;
+  toggleKey(false);
+});
+
+/* ----------------------------------------------------------------
    Init
 -----------------------------------------------------------------*/
 buildAudit();
 buildEscalation();
+buildReg();
 const hadSaved = loadSaved();
 if(!document.getElementById('date').value){
   document.getElementById('date').value = new Date().toISOString().slice(0,10);
