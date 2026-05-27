@@ -576,8 +576,8 @@
     </div>
 
     <div class="actions">
-      <button class="act" onclick="downloadReport()">Download summary</button>
-      <button class="act ghost" onclick="window.print()">Print or save as PDF</button>
+      <button class="act" onclick="downloadReport()">Download summary (Word)</button>
+      <button class="act ghost" onclick="printReport()">Save as PDF or print</button>
       <button class="act warn" onclick="resetAll()">Clear all data</button>
     </div>
   </section>
@@ -812,12 +812,12 @@ const CLUSTERS = [
     note:'The cross-cutting elements that power the seven steps and turn them from a process into a culture.',
     dims:[
       {
-        id:'helix', name:'The Helix: non-linear practice', glyph:'\u223F', color:'var(--c-helix)',
-        question:'Do staff understand that the steps loop and skip in real practice, and can they hold the sequence under pressure?',
-        tip:'Teach the steps in sequence to build the scaffold, then practise moving between them. Notify and Document are the constants in every case.',
+        id:'helix', name:'Responding Flexibly (the Helix)', glyph:'\u223F', color:'var(--c-helix)',
+        question:'Do staff understand that, in real practice, the steps loop and adapt to wrap care around the child rather than run in a fixed line, and can they hold the sequence under pressure?',
+        tip:'Real safeguarding rarely runs in a straight line. The point is to wrap care around the child, looping back and moving forward as the situation changes. RESPOND calls this flexible, non-linear way of working the Helix. Teach the steps in order first to build the scaffold, then practise moving between them. Notify and Document are the constants in every case.',
         cls:['dev','dev','floor','dev'],
         items:[
-          'Staff understand the seven steps are a toolkit to move between, not a rigid checklist to complete in order.',
+          'Staff understand the seven steps are a toolkit to move between, adapting care around the child, not a rigid checklist to complete in order.',
           'Staff can move flexibly between steps as a situation changes, for example looping back to Recognise or going straight to Notify in an emergency.',
           'Notify and Document are understood as the consistent requirements in every case.',
           'Through practice, staff have built enough familiarity to hold the sequence when under real pressure.'
@@ -1151,10 +1151,10 @@ const RATIONALE = {
   'Document|2':'KCSIE 2025 Part 1: records must be factual and accurate, including the child\u2019s own words.',
   'Document|3':'Developmental: having an agreed recording standard is good practice that supports the floor duty.',
   'Document|4':'Developmental: legibility to an external reader is a quality measure above the floor.',
-  'The Helix: non-linear practice|1':'Developmental: understanding the non-linear nature of the steps is conceptual maturity.',
-  'The Helix: non-linear practice|2':'Developmental: flexible movement between steps is a practised skill above the floor.',
-  'The Helix: non-linear practice|3':'KCSIE 2025 Part 1: notifying and recording are the non-negotiable actions in every case.',
-  'The Helix: non-linear practice|4':'Developmental: holding the sequence under pressure is built through practice above the floor.',
+  'Responding Flexibly (the Helix)|1':'Developmental: understanding the non-linear nature of the steps is conceptual maturity.',
+  'Responding Flexibly (the Helix)|2':'Developmental: flexible movement between steps is a practised skill above the floor.',
+  'Responding Flexibly (the Helix)|3':'KCSIE 2025 Part 1: notifying and recording are the non-negotiable actions in every case.',
+  'Responding Flexibly (the Helix)|4':'Developmental: holding the sequence under pressure is built through practice above the floor.',
   'Protective Capacity|1':'KCSIE 2025 Part 1: safeguarding is everyone\u2019s responsibility; collective ownership is a floor expectation.',
   'Protective Capacity|2':'Developmental: a visible, felt culture is a maturity aim above the floor.',
   'Protective Capacity|3':'Developmental: shared language with partners is good practice; the information-sharing duty is captured separately.',
@@ -1709,93 +1709,150 @@ function renderPriorities(){
 /* ----------------------------------------------------------------
    Report download
 -----------------------------------------------------------------*/
-function downloadReport(){
-  const school = document.getElementById('school').value || 'Setting not specified';
-  const assessor = document.getElementById('assessor').value || 'Not specified';
+// Shared: wrap a body of OOXML paragraphs/tables into a .docx Blob
+function buildDocxBlob(bodyXml, landscape){
+  const sectPr = landscape
+    ? '<w:sectPr><w:pgSz w:w="16838" w:h="11906" w:orient="landscape"/><w:pgMar w:top="1134" w:right="1134" w:bottom="1134" w:left="1134" w:header="567" w:footer="567" w:gutter="0"/></w:sectPr>'
+    : '<w:sectPr><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1134" w:right="1134" w:bottom="1134" w:left="1134" w:header="567" w:footer="567" w:gutter="0"/></w:sectPr>';
+  const documentXml='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n'+
+    '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>'+
+    bodyXml + sectPr + '</w:body></w:document>';
+  const contentTypes='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n'+
+    '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">'+
+    '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>'+
+    '<Default Extension="xml" ContentType="application/xml"/>'+
+    '<Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>'+
+    '</Types>';
+  const rels='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n'+
+    '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'+
+    '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/>'+
+    '</Relationships>';
+  const enc=new TextEncoder();
+  return zipStore([
+    {name:'[Content_Types].xml', data:enc.encode(contentTypes)},
+    {name:'_rels/.rels', data:enc.encode(rels)},
+    {name:'word/document.xml', data:enc.encode(documentXml)}
+  ]);
+}
+
+// Shared: a clean filename stem with the RESPOND words, setting and date
+function fileStem(kind){
+  const school = (document.getElementById('school').value||'').trim();
   const date = document.getElementById('date').value || new Date().toISOString().slice(0,10);
-  const o = overall();
-  const band = bandFor(o.avg);
-  const L = ['','Emerging','Developing','Established','Embedded'];
+  const safe = school.replace(/[^a-z0-9]+/gi,'_').replace(/^_|_$/g,'');
+  return 'RESPOND_Self_Assessment_' + kind + (safe?('_'+safe):'') + '_' + date;
+}
 
-  let t = '';
-  t += 'RESPOND SELF-ASSESSMENT SUMMARY\n';
-  t += '================================\n\n';
-  t += 'Setting: '+school+'\n';
-  t += 'Completed by: '+assessor+'\n';
-  t += 'Date: '+date+'\n\n';
-  t += 'OVERALL PROTECTIVE CAPACITY\n';
-  t += '---------------------------\n';
-  t += 'Band: '+(o.avg===null?'Not yet rated':band.name)+'\n';
-  if(o.avg!==null) t += 'Average maturity: '+o.avg.toFixed(2)+' of 4.00\n';
-  t += 'Statements rated: '+o.rated+' of '+TOTAL_ITEMS+'\n\n';
-
-  t += 'BY CLUSTER\n----------\n';
-  CLUSTERS.forEach(c=>{
-    const a = clusterAvg(c);
-    t += c.name+': '+(a===null?'not yet rated':a.toFixed(2)+' ('+bandFor(a).name+')')+'\n';
-  });
-  t += '\n';
-
-  t += 'BY DIMENSION\n------------\n';
-  CLUSTERS.forEach(c=>{
-    c.dims.forEach(d=>{
-      const a = dimAvg(d);
-      t += '\n'+d.name+' ['+(a===null?'not yet rated':a.toFixed(2)+', '+bandFor(a).name)+']\n';
-      d.items.forEach((stmt,i)=>{
-        const r = state.ratings[`${d.id}_${i}`];
-        const floor = (d.cls && d.cls[i]==='floor') ? ' (statutory floor)' : '';
-        t += '  ['+(r?L[r]:'not rated')+'] '+stmt+floor+'\n';
-      });
-      if(state.notes[d.id]) t += '  Notes: '+state.notes[d.id]+'\n';
-    });
-  });
-
-  // compliance exposure: weak floor items, citation, highest first
-  const exp = [];
-  CLUSTERS.forEach(c=>c.dims.forEach(d=>d.items.forEach((stmt,i)=>{
-    const r = state.ratings[`${d.id}_${i}`];
-    if((d.cls && d.cls[i]==='floor') && (r===1||r===2)) exp.push({v:r, dim:d.name, stmt, cite:primaryCitation(d.id)});
-  })));
-  exp.sort((a,b)=>a.v-b.v);
-  t += '\n\nCOMPLIANCE EXPOSURE\n-------------------\n';
-  t += 'Statutory-floor statements rated Emerging or Developing, highest exposure first.\n';
-  t += 'This indicates where to direct attention; it is not a judgement of compliance.\n';
-  if(exp.length===0){ t += '\nNo statutory-floor statements rated Emerging or Developing.\n'; }
-  else {
-    exp.forEach((p,idx)=>{
-      t += '\n'+(idx+1)+'. '+(p.v===1?'Higher exposure':'Moderate exposure')+' ['+p.cite+']\n';
-      t += '   '+p.dim+': '+p.stmt+'\n';
-      t += '   Rated: '+(p.v===1?'Emerging':'Developing')+'\n';
-    });
-  }
-
-  // priorities
-  const list = [];
-  CLUSTERS.forEach(c=>c.dims.forEach(d=>d.items.forEach((stmt,i)=>{
-    const r = state.ratings[`${d.id}_${i}`];
-    if(r===1||r===2) list.push({v:r,dim:d.name,stmt,tip:d.tip,floor:(d.cls&&d.cls[i]==='floor')});
-  })));
-  list.sort((a,b)=>{ const fa=a.floor?0:1,fb=b.floor?0:1; if(fa!==fb)return fa-fb; return a.v-b.v; });
-  t += '\n\nWHERE TO FOCUS NEXT\n-------------------\n';
-  if(list.length===0){ t += 'No statements rated Emerging or Developing. Sustain practice and keep reviewing.\n'; }
-  else {
-    list.forEach((p,idx)=>{
-      t += '\n'+(idx+1)+'. '+p.dim+' ('+(p.v===1?'Emerging':'Developing')+(p.floor?', statutory floor':'')+')\n';
-      t += '   '+p.stmt+'\n';
-      t += '   Consider: '+p.tip+'\n';
-    });
-  }
-
-  t += '\n\nThis self-assessment supports, and does not replace, statutory guidance, your safeguarding policy, or professional judgement.\n';
-  t += '(c) 2026 RESPOND Safeguarding\n';
-
-  const safe = school.replace(/[^a-z0-9]+/gi,'_').replace(/^_|_$/g,'') || 'Setting';
-  const blob = new Blob([t], {type:'text/plain;charset=utf-8'});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url; a.download = 'RESPOND_Self_Assessment_'+safe+'_'+date+'.txt';
+function saveBlob(blob, filename){
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url; a.download=filename;
   document.body.appendChild(a); a.click(); document.body.removeChild(a);
   URL.revokeObjectURL(url);
+}
+
+function downloadReport(){
+  const school = (document.getElementById('school').value||'').trim() || 'Setting not specified';
+  const assessor = (document.getElementById('assessor').value||'').trim() || 'Not specified';
+  const date = document.getElementById('date').value || new Date().toISOString().slice(0,10);
+  const o = overall();
+  const bandName = o.avg===null ? 'Not yet rated' : bandFor(o.avg).name;
+  const L = ['','Emerging','Developing','Established','Embedded'];
+
+  // Title block
+  let body =
+    wPara(wRun('RESPOND Safeguarding', {b:true, color:'2C5AA0', sz:20}), {after:40}) +
+    wPara(wRun('Self-Assessment Summary', {b:true, color:'1E3D6F', sz:40}), {after:120}) +
+    wPara([wRun('Setting:  ', {b:true, sz:20}), wRun(school, {sz:20})], {after:40}) +
+    wPara([wRun('Completed by:  ', {b:true, sz:20}), wRun(assessor, {sz:20})], {after:40}) +
+    wPara([wRun('Date:  ', {b:true, sz:20}), wRun(date, {sz:20})], {after:200}) +
+    wPara([wRun('Overall protective capacity:  ', {b:true, sz:22, color:'1E3D6F'}),
+           wRun(bandName + (o.avg!==null?'  ('+o.avg.toFixed(2)+' of 4.00, '+o.rated+' of '+TOTAL_ITEMS+' statements rated)':''), {sz:22})], {after:240});
+
+  // By-dimension table
+  const cols=[3400,1500,5660]; // portrait A4 content width ~10560
+  let headerRow='<w:tr><w:trPr><w:tblHeader/></w:trPr>'
+    + wCell('Area', cols[0], {fill:'1E3D6F', white:true, b:true})
+    + wCell('Maturity', cols[1], {fill:'1E3D6F', white:true, b:true, jc:'center'})
+    + wCell('Statements (rating)', cols[2], {fill:'1E3D6F', white:true, b:true})
+    + '</w:tr>';
+  let rows='';
+  let r=0;
+  CLUSTERS.forEach(c=>{
+    // cluster band row
+    rows += '<w:tr>' + wCell(c.name, cols[0]+cols[1]+cols[2], {fill:'E8EDF4', b:true, color:'1E3D6F', sz:18}) + '</w:tr>';
+    c.dims.forEach(d=>{
+      const a=dimAvg(d);
+      const shade = (r++%2)?'F4F6FA':null; const co=shade?{fill:shade}:{};
+      let stmtLines='';
+      d.items.forEach((s,i)=>{
+        const rt=state.ratings[`${d.id}_${i}`];
+        const floor=(d.cls&&d.cls[i]==='floor')?' [statutory floor]':'';
+        stmtLines += (i>0?'\n':'') + '['+(rt?L[rt]:'not rated')+'] ' + s + floor;
+      });
+      rows += '<w:tr>'
+        + wCell(d.name, cols[0], Object.assign({b:true, color:'1E3D6F'}, co))
+        + wCell(a===null?'-':bandFor(a).name, cols[1], Object.assign({jc:'center'}, co))
+        + wCell(stmtLines, cols[2], Object.assign({sz:16}, co))
+        + '</w:tr>';
+    });
+  });
+  const grid='<w:tblGrid>'+cols.map(w=>'<w:gridCol w:w="'+w+'"/>').join('')+'</w:tblGrid>';
+  const borders=['top','left','bottom','right','insideH','insideV'].map(s=>'<w:'+s+' w:val="single" w:sz="4" w:space="0" w:color="D9DDE5"/>').join('');
+  const tblPr='<w:tblPr><w:tblW w:w="0" w:type="auto"/><w:tblBorders>'+borders+'</w:tblBorders><w:tblLook w:val="04A0"/></w:tblPr>';
+  body += wPara(wRun('By dimension', {b:true, color:'1E3D6F', sz:26}), {before:120, after:120})
+        + '<w:tbl>'+tblPr+grid+headerRow+rows+'</w:tbl>'
+        + wPara('', {after:120});
+
+  // Compliance exposure
+  const exp=[];
+  CLUSTERS.forEach(c=>c.dims.forEach(d=>d.items.forEach((s,i)=>{
+    const rt=state.ratings[`${d.id}_${i}`];
+    if((d.cls&&d.cls[i]==='floor') && (rt===1||rt===2)) exp.push({v:rt, dim:d.name, stmt:s, cite:primaryCitation(d.id)});
+  })));
+  exp.sort((a,b)=>a.v-b.v);
+  body += wPara(wRun('Compliance exposure', {b:true, color:'1E3D6F', sz:26}), {after:60})
+        + wPara(wRun('Statutory-floor statements rated Emerging or Developing, highest exposure first. This shows where to direct attention; it is not a judgement of compliance.', {sz:16, color:'6B7385'}), {after:120});
+  if(exp.length===0){
+    body += wPara(wRun('No statutory-floor statements are currently rated Emerging or Developing.', {sz:18}), {after:120});
+  } else {
+    exp.forEach((p,idx)=>{
+      body += wPara([wRun((idx+1)+'. '+(p.v===1?'Higher exposure':'Moderate exposure')+'  ', {b:true, sz:18, color:(p.v===1?'C0392B':'B56F18')}), wRun('['+p.cite+']', {sz:16, color:'1E3D6F'})], {after:20})
+            + wPara(wRun(p.dim+': '+p.stmt, {sz:18}), {after:120});
+    });
+  }
+
+  // Where to focus
+  const list=[];
+  CLUSTERS.forEach(c=>c.dims.forEach(d=>d.items.forEach((s,i)=>{
+    const rt=state.ratings[`${d.id}_${i}`];
+    if(rt===1||rt===2) list.push({v:rt, dim:d.name, stmt:s, tip:d.tip, floor:(d.cls&&d.cls[i]==='floor')});
+  })));
+  list.sort((a,b)=>{ const fa=a.floor?0:1,fb=b.floor?0:1; if(fa!==fb)return fa-fb; return a.v-b.v; });
+  body += wPara(wRun('Where to focus next', {b:true, color:'1E3D6F', sz:26}), {before:120, after:120});
+  if(list.length===0){
+    body += wPara(wRun('No statements rated Emerging or Developing. Sustain practice and keep reviewing.', {sz:18}), {after:120});
+  } else {
+    list.forEach((p,idx)=>{
+      body += wPara(wRun((idx+1)+'. '+p.dim+' ('+(p.v===1?'Emerging':'Developing')+(p.floor?', statutory floor':'')+')', {b:true, sz:18}), {after:20})
+            + wPara(wRun(p.stmt, {sz:18}), {after:20})
+            + wPara(wRun('Consider: '+p.tip, {sz:16, color:'6B7385'}), {after:140});
+    });
+  }
+
+  body += wPara(wRun('This self-assessment supports, and does not replace, statutory guidance, your safeguarding policy, or professional judgement. RESPOND is a seven-step duty of care workflow: Recognise, Engage, Support, Pause, Offer, Notify, Document. (c) 2026 RESPOND Safeguarding.', {sz:16, color:'6B7385'}), {before:200, after:0});
+
+  saveBlob(buildDocxBlob(body, false), fileStem('Summary')+'.docx');
+}
+
+function printReport(){
+  const prev = document.title;
+  document.title = fileStem('Summary'); // becomes the default PDF filename
+  const restore = ()=>{ document.title = prev; window.removeEventListener('afterprint', restore); };
+  window.addEventListener('afterprint', restore);
+  window.print();
+  // fallback restore in case afterprint does not fire
+  setTimeout(restore, 1000);
 }
 
 function resetAll(){
@@ -2047,35 +2104,7 @@ function downloadActionPlan(){
     table +
     wPara(wRun('This action plan follows a RESPOND self-assessment. The framework is a seven-step duty of care workflow, Recognise, Engage, Support, Pause, Offer, Notify, Document, with Pause as the bridge between the relational and systems steps. It supports, and does not replace, statutory guidance, your safeguarding policy, or professional judgement.', {sz:16, color:'6B7385'}), {after:0});
 
-  const sectPr='<w:sectPr><w:pgSz w:w="16838" w:h="11906" w:orient="landscape"/><w:pgMar w:top="1134" w:right="1134" w:bottom="1134" w:left="1134" w:header="567" w:footer="567" w:gutter="0"/></w:sectPr>';
-  const documentXml='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n'+
-    '<w:document xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main"><w:body>'+
-    body + sectPr + '</w:body></w:document>';
-
-  const contentTypes='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n'+
-    '<Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types">'+
-    '<Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/>'+
-    '<Default Extension="xml" ContentType="application/xml"/>'+
-    '<Override PartName="/word/document.xml" ContentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"/>'+
-    '</Types>';
-  const rels='<?xml version="1.0" encoding="UTF-8" standalone="yes"?>\n'+
-    '<Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships">'+
-    '<Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/>'+
-    '</Relationships>';
-
-  const enc=new TextEncoder();
-  const blob = zipStore([
-    {name:'[Content_Types].xml', data:enc.encode(contentTypes)},
-    {name:'_rels/.rels', data:enc.encode(rels)},
-    {name:'word/document.xml', data:enc.encode(documentXml)}
-  ]);
-
-  const safe=(school).replace(/[^a-z0-9]+/gi,'_').replace(/^_|_$/g,'') || 'Setting';
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  a.href=url; a.download='RESPOND_Action_Plan_'+safe+'_'+date+'.docx';
-  document.body.appendChild(a); a.click(); document.body.removeChild(a);
-  URL.revokeObjectURL(url);
+  saveBlob(buildDocxBlob(body, true), fileStem('Action_Plan')+'.docx');
 }
 
 /* ----------------------------------------------------------------
