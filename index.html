@@ -76,6 +76,20 @@
 
   /* ---------- Identity panel ---------- */
   .panel{background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)}
+  /* unified panel intro system */
+  .panel > h2{display:flex;align-items:center;gap:11px;margin:0 0 10px;font-size:1.35rem;color:var(--navy);font-weight:800;letter-spacing:-.01em}
+  .panel > h2::before{content:"";flex:0 0 auto;width:5px;height:1.2em;border-radius:3px;background:var(--accent,var(--navy2))}
+  .panel > h2.nobar::before{display:none}
+  .lede{margin:0 0 16px;font-size:.96rem;line-height:1.5;color:var(--ink)}
+  details.explain{margin:0 0 18px;border:1px solid var(--line);border-radius:10px;background:var(--soft);overflow:hidden}
+  details.explain > summary{list-style:none;cursor:pointer;padding:10px 14px;font-size:.82rem;font-weight:600;color:var(--navy2);display:flex;align-items:center;gap:8px;user-select:none}
+  details.explain > summary::-webkit-details-marker{display:none}
+  details.explain > summary::before{content:"\203A";font-size:1.1rem;line-height:1;transition:transform .15s ease;color:var(--muted)}
+  details.explain[open] > summary::before{transform:rotate(90deg)}
+  details.explain > summary:hover{color:var(--navy)}
+  details.explain .xbody{padding:2px 15px 14px;font-size:.88rem;line-height:1.55;color:var(--ink)}
+  details.explain .xbody p{margin:0 0 9px}
+  details.explain .xbody p:last-child{margin:0}
   .identity{padding:20px 22px;margin:18px 0 8px;display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
   .identity .idnote{grid-column:1/-1;margin:0;font-size:.82rem;color:var(--muted);line-height:1.45}
   .identity label{display:block;font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);font-weight:600;margin-bottom:6px}
@@ -111,9 +125,11 @@
 
   /* ---------- Cluster ---------- */
   .cluster{margin:34px 0 8px}
-  .cluster-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;margin-bottom:6px}
-  .cluster-head h2{margin:0;font-size:1.35rem;color:var(--navy);font-weight:800}
+  .cluster-head{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+  .cluster-head h2{margin:0;font-size:1.35rem;color:var(--navy);font-weight:800;display:flex;align-items:center;gap:11px}
+  .cluster-head h2::before{content:"";flex:0 0 auto;width:5px;height:1.1em;border-radius:3px;background:var(--navy2)}
   .cluster-head .ctag{font-size:.82rem;color:var(--muted)}
+  details.explain.clusterx{margin:0 0 14px}
   .cluster-note{color:var(--muted);font-size:.92rem;margin:0 0 16px}
 
   /* ---------- Dimension card ---------- */
@@ -437,7 +453,10 @@
   <section class="hero">
     <h1>RESPOND Self-Assessment</h1>
     <p class="lead">A reflective audit for any setting to review its own safeguarding practice against the RESPOND framework, from the first moments of recognition through to the systems that hold a response together.</p>
-    <p class="fine">This is a tool for honest reflection and shared conversation, not a compliance test. It is designed to complement statutory guidance and your existing policies, helping a setting see where practice is strong, where it is developing, and where to focus next. Rate each statement as it is now, not as you would like it to be. The gaps are the most useful part.</p>
+    <details class="explain">
+      <summary>How to use this tool</summary>
+      <div class="xbody"><p>This is a tool for honest reflection and shared conversation, not a compliance test. It is designed to complement statutory guidance and your existing policies, helping a setting see where practice is strong, where it is developing, and where to focus next. Rate each statement as it is now, not as you would like it to be. The gaps are the most useful part.</p></div>
+    </details>
   </section>
 
   <!-- Identity -->
@@ -466,7 +485,13 @@
       <div class="lv"><b><span class="swatch" style="background:var(--m3)"></span> Established</b><span>Consistent and understood across the setting and reliably done.</span></div>
       <div class="lv"><b><span class="swatch" style="background:var(--m4)"></span> Embedded</b><span>Lived and felt, sustained under pressure, and routinely reviewed.</span></div>
     </div>
-    <p class="floornote"><span class="floortag">Statutory floor</span> Some statements are marked as a statutory floor. These reflect duties that should be met now, not developmental aims. Maturity is the journey, but it sits above a floor that must always be met. A statutory-floor item rated Emerging or Developing is treated as a priority in your results and plan. This tool demonstrates how your practice meets these duties and shows where attention is needed; it does not certify compliance, which remains a matter for your own judgement.</p>
+    <details class="explain" style="margin-top:14px">
+      <summary><span class="floortag">Statutory floor</span> &nbsp;What the floor marker means</summary>
+      <div class="xbody">
+        <p>Some statements are marked as a statutory floor. These reflect duties that should be met now, not developmental aims. Maturity is the journey, but it sits above a floor that must always be met.</p>
+        <p>A statutory-floor item rated Emerging or Developing is treated as a priority in your results and plan. This tool demonstrates how your practice meets these duties and shows where attention is needed; it does not certify compliance, which remains a matter for your own judgement.</p>
+      </div>
+    </details>
   </div>
 
   <!-- Tab navigation -->
@@ -486,22 +511,35 @@
 
   <!-- VIEW: Escalation -->
   <div class="view" id="view-escalation">
-  <section class="panel euh" id="euh">
+  <section class="panel euh" id="euh" style="--accent:var(--c-pause)">
     <h2>The Escalation of Unseen Harm</h2>
-    <p class="sub">The RESPOND model that describes how a concern intensifies through six predictable stages when early, subtle indicators are not acted upon. It is the reason the relational steps matter so much.</p>
-    <p class="ctx">Risk does not stay still when it goes unrecognised, it accumulates. Each stage below maps to the RESPOND step whose strength determines whether a student is caught there. Strong practice early, at Recognise, Engage and Support, catches a student before harm deepens. Where early practice is weaker, a student is more likely to pass unseen until a later stage. Based on the ratings you have given, here is where your practice would currently tend to catch a student.</p>
+    <p class="lede">How a concern intensifies through six stages when early signs are missed, and where your current practice would tend to catch a student.</p>
+    <details class="explain">
+      <summary>How this works</summary>
+      <div class="xbody">
+        <p>The RESPOND model describes how a concern intensifies through six predictable stages when early, subtle indicators are not acted upon. It is the reason the relational steps matter so much.</p>
+        <p>Risk does not stay still when it goes unrecognised, it accumulates. Each stage below maps to the RESPOND step whose strength determines whether a student is caught there. Strong practice early, at Recognise, Engage and Support, catches a student before harm deepens. Where early practice is weaker, a student is more likely to pass unseen until a later stage. Based on the ratings you have given, here is where your practice would currently tend to catch a student.</p>
+      </div>
+    </details>
     <div id="catchReadout" class="catchout">Rate the relevant areas above and your likely catch point will appear here.</div>
     <div class="ladder" id="ladder"></div>
-    <div class="foot"><b>The shift this asks for:</b> from reacting to crisis, to noticing the quiet, cumulative signs early, the work of Recognise, Engage and Support, so that fewer students ever reach the later stages unseen.</div>
+    <details class="explain" style="margin:14px 0 0">
+      <summary>The shift this asks for</summary>
+      <div class="xbody"><p>From reacting to crisis, to noticing the quiet, cumulative signs early, the work of Recognise, Engage and Support, so that fewer students ever reach the later stages unseen.</p></div>
+    </details>
   </section>
   </div>
 
   <!-- VIEW: Results -->
   <div class="view" id="view-results">
   <!-- Dashboard -->
-  <section class="panel dash" id="dashboard">
+  <section class="panel dash" id="dashboard" style="--accent:var(--c-engage)">
     <h2>Your protective capacity picture</h2>
-    <p class="sub">A live summary as you complete the audit. Protective Capacity is the collective, relational readiness of every adult, and student, to keep children safe.</p>
+    <p class="lede">A live summary as you complete the audit.</p>
+    <details class="explain">
+      <summary>What protective capacity means</summary>
+      <div class="xbody"><p>Protective Capacity is the collective, relational readiness of every adult, and student, to keep children safe.</p></div>
+    </details>
 
     <div class="headline">
       <div class="gauge" id="gauge">
@@ -529,13 +567,13 @@
 
     <div class="exposure" id="exposureBlock">
       <h3>Compliance exposure</h3>
-      <p class="ph">Statutory-floor statements rated Emerging or Developing, highest exposure first. These bear most directly on duties your setting should be meeting now. This shows where to direct attention; it is not a judgement of compliance.</p>
+      <p class="ph">Statutory-floor statements rated Emerging or Developing, highest exposure first. This shows where to direct attention; it is not a judgement of compliance.</p>
       <div id="exposureList"></div>
     </div>
 
     <div class="priorities">
       <h3>Where to focus next</h3>
-      <p class="ph">All the statements you rated Emerging or Developing, lowest first, including developmental aims above the statutory floor. These are the practical starting points for improvement.</p>
+      <p class="ph">All statements rated Emerging or Developing, lowest first, including developmental aims above the statutory floor.</p>
       <div id="priorityList"></div>
     </div>
 
@@ -549,10 +587,16 @@
 
   <!-- Regulatory and evidence base -->
   <div class="view" id="view-regulatory">
-  <section class="panel reg" id="reg">
+  <section class="panel reg" id="reg" style="--accent:var(--c-notify)">
     <h2>The regulatory and evidence base</h2>
-    <p class="sub">RESPOND is driven by regulation, research and evidence. This section does not ask whether you comply, it shows how the practice you have just assessed demonstrates the duties in the statutory framework. Compliance follows the work, it is the consequence of doing the right thing well.</p>
-    <p class="ctx">Each RESPOND area below expands to show the statutory duties and guidance that the practice maps onto, with a prompt to help you locate the evidence you would want to show during an audit. Independent schools must meet the Independent School Standards and have regard to the named statutory guidance. "Have regard to" means a school can demonstrate it either follows the guidance or has good reason to depart from it.</p>
+    <p class="lede">How the practice you have just assessed demonstrates the duties in the statutory framework. Compliance follows the work; it is not certified here.</p>
+    <details class="explain">
+      <summary>How to read this section</summary>
+      <div class="xbody">
+        <p>RESPOND is driven by regulation, research and evidence. This section does not ask whether you comply, it shows how the practice you have just assessed demonstrates the duties in the statutory framework. Compliance follows the work, it is the consequence of doing the right thing well.</p>
+        <p>Each RESPOND area below expands to show the statutory duties and guidance that the practice maps onto, with a prompt to help you locate the evidence you would want to show during an audit. Independent schools must meet the Independent School Standards and have regard to the named statutory guidance. "Have regard to" means a school can demonstrate it either follows the guidance or has good reason to depart from it.</p>
+      </div>
+    </details>
 
     <div class="boardrow">
       <label class="toggle"><input type="checkbox" id="boardToggle" onchange="toggleBoarding(this.checked)" /><span class="tr"></span><span class="tk"></span></label>
@@ -564,24 +608,29 @@
 
     <div id="regList"></div>
 
-    <p class="legalnote">Rows shaded <span class="amberkey"></span> amber are in transition: they reflect guidance that is newly in force, in consultation, or operative from a future date, and should be tracked. This mapping supports audit readiness but is not a compliance guarantee, and it complements rather than replaces your safeguarding policy, the full statutory texts, and professional judgement. Sources are referenced by their short titles; always work from the current full guidance.</p>
+    <details class="explain" style="margin:14px 0 0">
+      <summary>Amber rows and the limits of this mapping</summary>
+      <div class="xbody"><p>Rows shaded <span class="amberkey"></span> amber are in transition: they reflect guidance that is newly in force, in consultation, or operative from a future date, and should be tracked. This mapping supports audit readiness but is not a compliance guarantee, and it complements rather than replaces your safeguarding policy, the full statutory texts, and professional judgement. Sources are referenced by their short titles; always work from the current full guidance.</p></div>
+    </details>
   </section>
   </div>
 
   <!-- VIEW: Reflection and plan -->
   <div class="view" id="view-plan">
   <!-- RESPOND Safeguarding Framework: AI reflection -->
-  <section class="panel aipanel" id="aiReflection">
-    <h2><span class="mk" aria-hidden="true">
+  <section class="panel aipanel" id="aiReflection" style="--accent:var(--c-document)">
+    <h2 class="nobar"><span class="mk" aria-hidden="true">
       <i style="background:var(--c-recognise)"></i><i style="background:var(--c-engage)"></i><i style="background:var(--c-support)"></i><i style="background:var(--c-pause)"></i><i style="background:var(--c-offer)"></i><i style="background:var(--c-notify)"></i><i style="background:var(--c-document)"></i>
     </span>RESPOND Safeguarding Framework</h2>
-    <p class="sub">Generate a short, professional reflection on your self-assessment through the lens of the RESPOND framework. It draws out genuine strengths and the most useful areas to focus on next.</p>
-    <div class="disclaimer">
-      <p class="dh">AI guidance and data protection</p>
-      <p>This reflection is generated by AI to support professional thinking. It is guidance only, it can be imperfect, and it does not replace statutory guidance, your safeguarding policy, or the judgement of your designated safeguarding lead. Always check it against your own professional knowledge.</p>
-      <p>When you generate a reflection, your ratings, notes and any draft actions are sent securely to the model to produce the summary, then returned. <b>Nothing is stored, logged or retained on the server, and nothing is used to train any model.</b> No personal data about students or staff is required by this tool, so please keep notes free of names or identifying details.</p>
-      <p>Everything else you enter stays in this browser on your own device and is never transmitted. See the foot of the page for more on how your progress is saved.</p>
-    </div>
+    <p class="lede">Generate a short, professional reflection on your self-assessment, drawing out genuine strengths and the most useful areas to focus on next.</p>
+    <details class="explain">
+      <summary>AI guidance and data protection</summary>
+      <div class="xbody">
+        <p>This reflection is generated by AI to support professional thinking. It is guidance only, it can be imperfect, and it does not replace statutory guidance, your safeguarding policy, or the judgement of your designated safeguarding lead. Always check it against your own professional knowledge.</p>
+        <p>When you generate a reflection, your ratings, notes and any draft actions are sent securely to the model to produce the summary, then returned. <b>Nothing is stored, logged or retained on the server, and nothing is used to train any model.</b> No personal data about students or staff is required by this tool, so please keep notes free of names or identifying details.</p>
+        <p>Everything else you enter stays in this browser on your own device and is never transmitted. See the foot of the page for more on how your progress is saved.</p>
+      </div>
+    </details>
     <div class="actions">
       <button class="act" id="aiBtn" onclick="aiGenerate()">Generate reflection</button>
       <button class="act ghost" id="aiCopyBtn" style="display:none" onclick="aiCopy()">Copy</button>
@@ -590,10 +639,16 @@
   </section>
 
   <!-- Action plan -->
-  <section class="panel aplan" id="actionplan">
+  <section class="panel aplan" id="actionplan" style="--accent:var(--c-document)">
     <h2>Action plan</h2>
-    <p class="sub">Choose which areas to turn into actions. Every statement you rated Emerging or Developing appears below. Tick the ones to include, add the detail, then export a branded Word document for your programme plan or governor report.</p>
-    <p class="sub">A recommended action is suggested for each, drawn from the RESPOND toolkit. Edit it to fit your setting.</p>
+    <p class="lede">Tick the areas to turn into actions, add the detail, then export a branded Word document for your programme plan or governor report.</p>
+    <details class="explain">
+      <summary>How the action plan works</summary>
+      <div class="xbody">
+        <p>Every statement you rated Emerging or Developing appears below. Tick the ones to include and add the detail you want to record.</p>
+        <p>A recommended action is suggested for each, drawn from the RESPOND toolkit. Edit it to fit your setting.</p>
+      </div>
+    </details>
     <div class="apcount" id="apCount"></div>
     <div class="apbulk" id="apBulk" style="display:none">
       <button class="act ghost sm" onclick="apSelectAll(true)">Check all</button>
@@ -1269,7 +1324,7 @@ function buildAudit(){
   CLUSTERS.forEach(c=>{
     html += `<section class="cluster">
       <div class="cluster-head"><h2>${c.name}</h2><span class="ctag">${c.tag}</span></div>
-      <p class="cluster-note">${c.note}</p>`;
+      <details class="explain clusterx"><summary>About this cluster</summary><div class="xbody"><p>${c.note}</p></div></details>`;
     c.dims.forEach(d=>{
       html += `<div class="panel dim" id="dim-${d.id}">
         <div class="bar" style="background:${d.color}"></div>
