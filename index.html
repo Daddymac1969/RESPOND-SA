@@ -355,6 +355,7 @@
   .sticky{position:sticky;bottom:0;z-index:30;background:rgba(255,255,255,.94);backdrop-filter:blur(8px);border-top:1px solid var(--line)}
   .sticky .inner{max-width:1000px;margin:0 auto;padding:11px 22px;display:flex;align-items:center;gap:16px;flex-wrap:wrap}
   .sticky .prog{flex:1 1 200px}
+  @media (max-width:560px){ .sticky button{padding:8px 12px;font-size:.8rem} .sticky .inner{gap:10px} }
   .sticky .prog .ptrack{height:8px;border-radius:5px;background:var(--soft);overflow:hidden;margin-top:5px}
   .sticky .prog .pfill{height:100%;background:var(--navy2);width:0;transition:width .35s ease}
   .sticky .prog .pl{font-size:.78rem;color:var(--muted)}
@@ -393,6 +394,8 @@
   @media (max-width:720px){ #keyTab{padding:13px 7px;font-size:.72rem} }
   .sticky button{font:inherit;font-weight:600;font-size:.85rem;padding:9px 16px;border-radius:9px;border:1px solid var(--navy);background:var(--navy);color:#fff;cursor:pointer}
   .sticky button:hover{background:var(--navy2)}
+  .sticky button.clearbtn{background:transparent;color:var(--c-pause);border-color:var(--c-pause)}
+  .sticky button.clearbtn:hover{background:var(--c-pause);color:#fff}
 
   footer{border-top:1px solid var(--line);padding:26px 0 50px;color:var(--muted);font-size:.85rem}
   footer p{margin:0 0 8px}
@@ -575,7 +578,7 @@
     <div class="actions">
       <button class="act" onclick="downloadReport()">Download summary</button>
       <button class="act ghost" onclick="window.print()">Print or save as PDF</button>
-      <button class="act warn" onclick="resetAll()">Reset</button>
+      <button class="act warn" onclick="resetAll()">Clear all data</button>
     </div>
   </section>
   </div>
@@ -693,6 +696,7 @@
       <div class="ptrack"><div class="pfill" id="progFill"></div></div>
     </div>
     <button onclick="document.getElementById('dashboard').scrollIntoView()">View results</button>
+    <button class="clearbtn" onclick="resetAll()" title="Clear all ratings and start again">Clear all</button>
   </div>
 </div>
 
@@ -1800,7 +1804,10 @@ function resetAll(){
   Object.keys(apState).forEach(k=>delete apState[k]);
   document.querySelectorAll('.seg button.sel').forEach(b=>b.classList.remove('sel'));
   document.querySelectorAll('.notes textarea').forEach(t=>t.value='');
+  ['school','assessor'].forEach(id=>{ const el=document.getElementById(id); if(el) el.value=''; });
+  const dt = document.getElementById('date'); if(dt) dt.value = new Date().toISOString().slice(0,10);
   const bt = document.getElementById('boardToggle'); if(bt){ bt.checked=false; document.getElementById('reg').classList.remove('show-board'); }
+  if(typeof hideWhy==='function') hideWhy();
   clearSaved();
   refresh();
   setSaveStatus('Cleared', true);
